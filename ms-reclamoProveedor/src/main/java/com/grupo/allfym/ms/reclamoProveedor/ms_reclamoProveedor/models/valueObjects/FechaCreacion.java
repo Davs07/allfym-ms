@@ -9,8 +9,7 @@ import java.time.LocalDate;
 
 @Embeddable
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class FechaCreacion {
     private LocalDate fecha;
 
