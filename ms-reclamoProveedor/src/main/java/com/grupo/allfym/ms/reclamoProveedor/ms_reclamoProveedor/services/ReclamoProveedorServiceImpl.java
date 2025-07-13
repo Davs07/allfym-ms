@@ -1,7 +1,9 @@
 package com.grupo.allfym.ms.reclamoProveedor.ms_reclamoProveedor.services;
 
 import com.grupo.allfym.ms.reclamoProveedor.ms_reclamoProveedor.clients.CompraCliente;
+import com.grupo.allfym.ms.reclamoProveedor.ms_reclamoProveedor.clients.CompraResponseDTO;
 import com.grupo.allfym.ms.reclamoProveedor.ms_reclamoProveedor.clients.ProveedorCliente;
+import com.grupo.allfym.ms.reclamoProveedor.ms_reclamoProveedor.clients.ProveedorResponseDTO;
 import com.grupo.allfym.ms.reclamoProveedor.ms_reclamoProveedor.models.dto.ReclamoProveedorRequestDTO;
 import com.grupo.allfym.ms.reclamoProveedor.ms_reclamoProveedor.models.dto.ReclamoProveedorResponseDTO;
 import com.grupo.allfym.ms.reclamoProveedor.ms_reclamoProveedor.models.entities.ReclamoProveedor;
@@ -10,7 +12,6 @@ import com.grupo.allfym.ms.reclamoProveedor.ms_reclamoProveedor.repositories.Rec
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -331,7 +332,7 @@ public class ReclamoProveedorServiceImpl implements ReclamoProveedorService {
         if (proveedorInfo != null) {
             // Cast dinámico para acceder a los campos del proveedor
             try {
-                var proveedor = (com.grupo.allfym.ms.reclamoProveedor.ms_reclamoProveedor.clients.ProveedorResponseDTO) proveedorInfo;
+                var proveedor = (ProveedorResponseDTO) proveedorInfo;
                 dto.setNombreProveedor(proveedor.getNombre());
                 dto.setEmailProveedor(proveedor.getEmail());
             } catch (Exception e) {
@@ -342,7 +343,7 @@ public class ReclamoProveedorServiceImpl implements ReclamoProveedorService {
         // Agregar información de la compra si está disponible
         if (compraInfo != null) {
             try {
-                var compra = (com.grupo.allfym.ms.reclamoProveedor.ms_reclamoProveedor.clients.CompraResponseDTO) compraInfo;
+                var compra = (CompraResponseDTO) compraInfo;
                 dto.setIdCompra(compra.getId());
                 dto.setMontoCompra(compra.getMontoTotal());
             } catch (Exception e) {
