@@ -50,9 +50,9 @@ public class Proveedor {
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "fecha", column = @Column(name = "fecha_registro"))
+            @AttributeOverride(name = "fechaRegistro", column = @Column(name = "fecha_registro"))
     })
-    private FechaDeRegistro fechaDeRegistro;
+    private FechaDeRegistro fechaRegistro;
 
     public Proveedor(String nombre, String ruc, Telefono telefono, Email email, Direccion direccion) {
         this.nombre = nombre;
@@ -61,7 +61,7 @@ public class Proveedor {
         this.email = email;
         this.direccion = direccion;
         this.estado = Estado.ACTIVO;
-        this.fechaDeRegistro = new FechaDeRegistro();
+        this.fechaRegistro = new FechaDeRegistro();
     }
 
 }
