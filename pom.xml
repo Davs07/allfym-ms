@@ -8,7 +8,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.5.3</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
 
     <groupId>com.grupo.allfym.ms</groupId>
@@ -27,5 +27,8 @@
         <module>ms-reclamoProveedor</module>
         <module>ms-clientes</module>
         <module>ms-pagos</module>
+        <module>ms-reclamos</module>
+        <module>ms-compra</module>
+        <module>ms-proveedores</module>
     </modules>
 </project>
