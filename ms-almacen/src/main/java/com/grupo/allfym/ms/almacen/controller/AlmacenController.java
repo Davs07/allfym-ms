@@ -1,0 +1,93 @@
+package com.grupo.allfym.ms.almacen.controller;
+
+import com.grupo.allfym.ms.almacen.models.Producto;
+import com.grupo.allfym.ms.almacen.models.entity.AlmacenProducto;
+import com.grupo.allfym.ms.almacen.models.entity.Movimiento;
+import com.grupo.allfym.ms.almacen.service.AlmacenService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.*;
+
+@CrossOrigin(origins = "*")
+@RestController
+@RequestMapping("/api/almacen")
+public class AlmacenController {
+
+    @Autowired
+    private AlmacenService almacenService;
+
+    @PostMapping("/producto/{idProducto}/agregar-stock/{stockInicial}")
+    public ResponseEntity<?> agregarProductoAlmacen(@PathVariable Long idProducto, @PathVariable Integer stockInicial) {
+        try {
+            AlmacenProducto almacenProducto = almacenService.agregarProductoAlmacen(idProducto, stockInicial);
+            return ResponseEntity.status(HttpStatus.CREATED).body(almacenProducto);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/producto/{idProducto}/aumentar-stock/{cantidad}")
+    public ResponseEntity<?> aumentarStock(@PathVariable Long idProducto, @PathVariable Integer cantidad) {
+        try {
+            AlmacenProducto almacenProducto = almacenService.aumentarStock(idProducto, cantidad);
+            return ResponseEntity.ok(almacenProducto);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/producto/{idProducto}/reducir-stock/{cantidad}")
+    public ResponseEntity<?> reducirStock(@PathVariable Long idProducto, @PathVariable Integer cantidad) {
+        try {
+            AlmacenProducto almacenProducto = almacenService.reducirStock(idProducto, cantidad);
+            return ResponseEntity.ok(almacenProducto);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+
+    @GetMapping("/producto/{idProducto}/historial-movimientos")
+    public ResponseEntity<List<Movimiento>> obtenerHistorialMovimientos(@PathVariable Long idProducto) {
+        List<Movimiento> movimientos = almacenService.obtenerHistorialMovimientos(idProducto);
+        return ResponseEntity.ok(movimientos);
+    }
+
+    @GetMapping("/productos")
+    public ResponseEntity<List<Map<String, Object>>> listarProductosEnAlmacen() {
+        try {
+            List<AlmacenProducto> productosEnAlmacen = almacenService.listarProductosEnAlmacen();
+            List<Map<String, Object>> respuesta = new ArrayList<>();
+
+            for (AlmacenProducto almacenProducto : productosEnAlmacen) {
+                // Obtener detalle del producto desde ms-productos
+                Producto producto = almacenService.obtenerDetalleProducto(almacenProducto.getIdProducto());
+
+                // Crear respuesta combinada
+                Map<String, Object> item = new HashMap<>();
+                item.put("idAlmacen", almacenProducto.getIdAlmacen());
+                item.put("stock", almacenProducto.getStock());
+                item.put("idProducto", almacenProducto.getIdProducto());
+                item.put("producto", producto);  // Detalles del producto
+
+                respuesta.add(item);
+            }
+
+            return ResponseEntity.ok(respuesta);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    @GetMapping("/producto/{idProducto}/detalle")
+    public ResponseEntity<?> obtenerDetalleProducto(@PathVariable Long idProducto) {
+        try {
+            Producto producto = almacenService.obtenerDetalleProducto(idProducto);
+            return ResponseEntity.ok(producto);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+}
