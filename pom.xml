@@ -30,5 +30,7 @@
         <module>ms-reclamos</module>
         <module>ms-compra</module>
         <module>ms-proveedores</module>
+        <module>ms-productos</module>
+        <module>ms-almacen</module>
     </modules>
 </project>
