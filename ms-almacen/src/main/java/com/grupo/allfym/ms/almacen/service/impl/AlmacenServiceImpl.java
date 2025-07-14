@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -98,7 +101,10 @@ public class AlmacenServiceImpl implements AlmacenService {
 
     @Override
     public List<AlmacenProducto> listarProductosEnAlmacen() {
-        return (List<AlmacenProducto>) almacenProductoRepository.findAll();
+        Iterable<AlmacenProducto> productosIterable = almacenProductoRepository.findAll();
+        List<AlmacenProducto> productos = new ArrayList<>();
+        productosIterable.forEach(productos::add);
+        return productos;
     }
 
     @Override
@@ -106,11 +112,54 @@ public class AlmacenServiceImpl implements AlmacenService {
         return validarProductoExiste(idProducto);
     }
 
+    @Override
+    public List<Map<String, Object>> listarProductosConDetalles() {
+        Iterable<AlmacenProducto> productosIterable = almacenProductoRepository.findAll();
+        List<AlmacenProducto> productosEnAlmacen = new ArrayList<>();
+        productosIterable.forEach(productosEnAlmacen::add);
+
+        List<Map<String, Object>> respuesta = new ArrayList<>();
+
+        for (AlmacenProducto almacenProducto : productosEnAlmacen) {
+            try {
+                Producto producto = productoClientRest.obtenerProductoPorId(almacenProducto.getIdProducto());
+
+                Map<String, Object> item = new HashMap<>();
+                item.put("idAlmacen", almacenProducto.getIdAlmacen());
+                item.put("stock", almacenProducto.getStock());
+                item.put("idProducto", almacenProducto.getIdProducto());
+                item.put("producto", producto);
+
+                respuesta.add(item);
+            } catch (Exception e) {
+                // Si no se puede obtener el detalle del producto, solo mostrar info básica
+                Map<String, Object> item = new HashMap<>();
+                item.put("idAlmacen", almacenProducto.getIdAlmacen());
+                item.put("stock", almacenProducto.getStock());
+                item.put("idProducto", almacenProducto.getIdProducto());
+                item.put("producto", null);
+                item.put("error", "No se pudo obtener detalle del producto");
+
+                respuesta.add(item);
+            }
+        }
+        return respuesta;
+    }
+
+    @Override
+    public Integer consultarStock(Long idProducto) {
+        Optional<AlmacenProducto> almacenProducto = almacenProductoRepository.findByIdProducto(idProducto);
+        if (almacenProducto.isEmpty()) {
+            throw new RuntimeException("Producto no encontrado en almacén");
+        }
+        return almacenProducto.get().getStock();
+    }
+
     private Producto validarProductoExiste(Long idProducto) {
         try {
-            return productoClientRest.detalle(idProducto);
+            return productoClientRest.obtenerProductoPorId(idProducto);
         } catch (Exception e) {
-            throw new RuntimeException("Producto no encontrado en el microservicio de productos con ID: " + idProducto);
+            throw new RuntimeException("Producto no encontrado en el catálogo: " + idProducto);
         }
     }
 

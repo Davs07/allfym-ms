@@ -57,35 +57,31 @@ public class AlmacenController {
     }
 
     @GetMapping("/productos")
-    public ResponseEntity<List<Map<String, Object>>> listarProductosEnAlmacen() {
+    public ResponseEntity<?> listarProductosEnAlmacen() {
         try {
-            List<AlmacenProducto> productosEnAlmacen = almacenService.listarProductosEnAlmacen();
-            List<Map<String, Object>> respuesta = new ArrayList<>();
-
-            for (AlmacenProducto almacenProducto : productosEnAlmacen) {
-                // Obtener detalle del producto desde ms-productos
-                Producto producto = almacenService.obtenerDetalleProducto(almacenProducto.getIdProducto());
-
-                // Crear respuesta combinada
-                Map<String, Object> item = new HashMap<>();
-                item.put("idAlmacen", almacenProducto.getIdAlmacen());
-                item.put("stock", almacenProducto.getStock());
-                item.put("idProducto", almacenProducto.getIdProducto());
-                item.put("producto", producto);  // Detalles del producto
-
-                respuesta.add(item);
-            }
-
-            return ResponseEntity.ok(respuesta);
+            List<Map<String, Object>> productosConStock = almacenService.listarProductosConDetalles();
+            return ResponseEntity.ok(productosConStock);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al obtener productos del almacén: " + e.getMessage());
         }
     }
+
     @GetMapping("/producto/{idProducto}/detalle")
     public ResponseEntity<?> obtenerDetalleProducto(@PathVariable Long idProducto) {
         try {
             Producto producto = almacenService.obtenerDetalleProducto(idProducto);
             return ResponseEntity.ok(producto);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/producto/{idProducto}/stock")
+    public ResponseEntity<?> consultarStock(@PathVariable Long idProducto) {
+        try {
+            Integer stock = almacenService.consultarStock(idProducto);
+            return ResponseEntity.ok(Map.of("idProducto", idProducto, "stock", stock));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }

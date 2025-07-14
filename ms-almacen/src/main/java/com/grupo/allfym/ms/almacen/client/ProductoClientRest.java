@@ -7,12 +7,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "ms-productos", url = "localhost:8030/api/productos")
+@FeignClient(name = "ms-productos", url = "${microservices.productos.url:http://localhost:8070}")
 public interface ProductoClientRest {
 
-    @GetMapping("/buscar/{id}")
-    Producto detalle(@PathVariable Long id);
-
-    @PostMapping("/crear")
-    Producto crear(@RequestBody Producto producto);
+    @GetMapping("/api/productos/buscar/{id}")
+    Producto obtenerProductoPorId(@PathVariable Long id);
 }

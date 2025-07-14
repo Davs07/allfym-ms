@@ -1,5 +1,6 @@
 package com.grupo.allfym.ms.reclamoProveedor.ms_reclamoProveedor.clients;
 
+import com.grupo.allfym.ms.reclamoProveedor.ms_reclamoProveedor.dto.CompraResponseDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

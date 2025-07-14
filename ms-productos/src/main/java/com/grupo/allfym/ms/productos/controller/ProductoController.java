@@ -57,13 +57,32 @@ public class ProductoController {
         return ResponseEntity.ok(productos);
     }
 
-    @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<?> eliminarProductoPorId(@PathVariable Long id) throws Exception{
+    @PutMapping("/{id}")
+    public ResponseEntity<?> actualizarProducto(@PathVariable Long id, @RequestBody Producto producto) {
         try {
+            Optional<Producto> productoExistente = productoService.obtenerProductoPorId(id);
+            if (productoExistente.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Producto no encontrado con ID: " + id);
+            }
+            producto.setIdProducto(id);
+            Producto productoActualizado = productoService.guardarProducto(producto);
+            return ResponseEntity.ok(productoActualizado);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al actualizar producto: " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminarProducto(@PathVariable Long id) {
+        try {
+            Optional<Producto> producto = productoService.obtenerProductoPorId(id);
+            if (producto.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Producto no encontrado con ID: " + id);
+            }
             productoService.eliminarProducto(id);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Producto no encontrado con ID: " + id);
+            return ResponseEntity.ok("Producto eliminado exitosamente");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al eliminar producto: " + e.getMessage());
         }
     }
 }
