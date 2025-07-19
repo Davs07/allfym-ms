@@ -80,7 +80,7 @@ public class CompraController {
     }
 
 
-    @PostMapping("/detalle/{id}")
+    @PostMapping("/{id}/detalle")
     public ResponseEntity<Compra> agregarDetalle(@RequestBody DetalleCompra detalleCompra,@PathVariable Long id) {
         try {
             Compra compraActualizada = compraService.agregarDetalle(id, detalleCompra);

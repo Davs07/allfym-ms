@@ -1,6 +1,8 @@
 package com.grupo.allfym.ms_compra.services;
 
+import com.grupo.allfym.ms_compra.clients.AlmacenCliente;
 import com.grupo.allfym.ms_compra.clients.ProveedorCliente;
+import com.grupo.allfym.ms_compra.models.Producto;
 import com.grupo.allfym.ms_compra.models.Proveedor;
 import com.grupo.allfym.ms_compra.models.entities.Compra;
 import com.grupo.allfym.ms_compra.models.entities.DetalleCompra;
@@ -21,6 +23,9 @@ public class CompraServiceImpl implements CompraService{
 
     @Autowired
     private ProveedorCliente client;
+
+    @Autowired
+    private AlmacenCliente almacenCliente;
 
     @Override
     public void eliminar(Long id) {
@@ -102,7 +107,6 @@ public class CompraServiceImpl implements CompraService{
 
     @Override
     public Compra guardar(Compra compra) {
-
         Long proveedorId = compra.getIdProveedor();
         Proveedor proveedor = client.buscarporId(proveedorId);
 
@@ -111,17 +115,41 @@ public class CompraServiceImpl implements CompraService{
         }
 
         List<DetalleCompra> detalles = compra.getDetalles();
+        if (detalles == null) {
+            throw new IllegalArgumentException("La compra debe contener al menos un detalle.");
+        }
+
         double total = 0.0;
+        List<Producto> productosAlmacen = almacenCliente.obtenerProductos();
 
         for (DetalleCompra detalle : detalles) {
+            Long productoId = detalle.getIdProducto();
+
+            boolean productoExiste = false;
+            for (Producto producto : productosAlmacen) {
+                if (producto.getId() != null && producto.getId().equals(productoId)) {
+                    productoExiste = true;
+                    break;
+                }
+            }
+
+            if (!productoExiste) {
+                throw new IllegalArgumentException("El producto ID " + productoId + " no existe en almacén.");
+            }
+
             double subtotal = detalle.getCantidad() * detalle.getPrecioCompra();
             detalle.setSubtotal(subtotal);
             detalle.setCompra(compra);
             total += subtotal;
+
+            try {
+                almacenCliente.aumentarStock(productoId, detalle.getCantidad());
+            } catch (Exception e) {
+                System.out.println("Error al aumentar el stock para producto ID " + productoId + ": " + e.getMessage());
+            }
         }
 
         compra.setMontoTotal(total);
-
         return repositoryCompra.save(compra);
     }
 
@@ -135,6 +163,27 @@ public class CompraServiceImpl implements CompraService{
         }
 
         Compra compra = optionalCompra.get();
+
+        // Validar existencia del producto en almacén
+        List<Producto> productosAlmacen = almacenCliente.obtenerProductos();
+        Long productoId = detalleCompra.getIdProducto();
+        boolean productoExiste = false;
+        for (Producto producto : productosAlmacen) {
+            if (producto.getId() != null && producto.getId().equals(productoId)) {
+                productoExiste = true;
+                break;
+            }
+        }
+        if (!productoExiste) {
+            throw new IllegalArgumentException("El producto ID " + productoId + " no existe en almacén.");
+        }
+
+        // Aumentar stock en almacén
+        try {
+            almacenCliente.aumentarStock(productoId, detalleCompra.getCantidad());
+        } catch (Exception e) {
+            System.out.println("Error al aumentar el stock para producto ID " + productoId + ": " + e.getMessage());
+        }
 
         // Relaciona el detalle con la compra
         detalleCompra.setCompra(compra);
