@@ -7,6 +7,7 @@ import com.grupo.allfym.ms.productos.models.entity.Producto;
 import com.grupo.allfym.ms.productos.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,26 +24,31 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Producto> listarProductos() {
         return (List<Producto>) productoRepository.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Producto> obtenerProductoPorId(Long id) {
         return productoRepository.findById(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Producto> obtenerProductoPorNombre(String nombre) {
         return productoRepository.findByNombre(nombre);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Producto> obtenerProductosPorCategoria(Categoria categoria) {
         return productoRepository.findByCategoria(categoria);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Producto> obtenerProductosPorMarca(Marca marca) {
         return productoRepository.findByMarca(marca);
     }

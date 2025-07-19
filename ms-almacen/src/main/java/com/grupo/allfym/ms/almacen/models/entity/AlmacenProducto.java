@@ -24,7 +24,7 @@ public class AlmacenProducto {
     @Column(name = "stock", nullable = false)
     private Integer stock;
 
-    @Column(name = "id_producto", nullable = false)
+    @Column(name = "id_producto", nullable = false, unique = true)
     private Long idProducto;
 
     @OneToMany(mappedBy = "almacenProducto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

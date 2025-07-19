@@ -29,6 +29,7 @@ public class AlmacenController {
         }
     }
 
+
     @PutMapping("/producto/{idProducto}/aumentar-stock/{cantidad}")
     public ResponseEntity<?> aumentarStock(@PathVariable Long idProducto, @PathVariable Integer cantidad) {
         try {
@@ -51,6 +52,7 @@ public class AlmacenController {
 
 
     @GetMapping("/producto/{idProducto}/historial-movimientos")
+
     public ResponseEntity<List<Movimiento>> obtenerHistorialMovimientos(@PathVariable Long idProducto) {
         List<Movimiento> movimientos = almacenService.obtenerHistorialMovimientos(idProducto);
         return ResponseEntity.ok(movimientos);
@@ -65,6 +67,11 @@ public class AlmacenController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al obtener productos del almacén: " + e.getMessage());
         }
+    }
+    @GetMapping("/productos/simple")
+    public ResponseEntity<List<AlmacenProducto>> listarProductosSimple() {
+        List<AlmacenProducto> productos = almacenService.listarProductosEnAlmacen();
+        return ResponseEntity.ok(productos);
     }
 
     @GetMapping("/producto/{idProducto}/detalle")

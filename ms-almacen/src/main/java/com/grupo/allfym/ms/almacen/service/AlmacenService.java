@@ -15,8 +15,8 @@ public interface AlmacenService {
     AlmacenProducto reducirStock(Long idProducto, Integer cantidad);
     Optional<AlmacenProducto> obtenerProductoEnAlmacen(Long idProducto);
     List<Movimiento> obtenerHistorialMovimientos(Long idProducto);
-    List<AlmacenProducto> listarProductosEnAlmacen();
     Producto obtenerDetalleProducto(Long idProducto);
     List<Map<String, Object>> listarProductosConDetalles();
     Integer consultarStock(Long idProducto);
+    List<AlmacenProducto> listarProductosEnAlmacen();
 }

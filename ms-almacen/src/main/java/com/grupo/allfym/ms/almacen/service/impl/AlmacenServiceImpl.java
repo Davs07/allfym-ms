@@ -90,29 +90,34 @@ public class AlmacenServiceImpl implements AlmacenService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<AlmacenProducto> obtenerProductoEnAlmacen(Long idProducto) {
         return almacenProductoRepository.findByIdProducto(idProducto);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Movimiento> obtenerHistorialMovimientos(Long idProducto) {
         return movimientoRepository.findByAlmacenProductoIdProducto(idProducto);
     }
 
     @Override
-    public List<AlmacenProducto> listarProductosEnAlmacen() {
-        Iterable<AlmacenProducto> productosIterable = almacenProductoRepository.findAll();
-        List<AlmacenProducto> productos = new ArrayList<>();
-        productosIterable.forEach(productos::add);
-        return productos;
-    }
-
-    @Override
+    @Transactional(readOnly = true)
     public Producto obtenerDetalleProducto(Long idProducto) {
         return validarProductoExiste(idProducto);
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<AlmacenProducto> listarProductosEnAlmacen() {
+        Iterable<AlmacenProducto> productosIterable = almacenProductoRepository.findAll();
+        List<AlmacenProducto> productosEnAlmacen = new ArrayList<>();
+        productosIterable.forEach(productosEnAlmacen::add);
+        return productosEnAlmacen;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<Map<String, Object>> listarProductosConDetalles() {
         Iterable<AlmacenProducto> productosIterable = almacenProductoRepository.findAll();
         List<AlmacenProducto> productosEnAlmacen = new ArrayList<>();
@@ -147,6 +152,7 @@ public class AlmacenServiceImpl implements AlmacenService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Integer consultarStock(Long idProducto) {
         Optional<AlmacenProducto> almacenProducto = almacenProductoRepository.findByIdProducto(idProducto);
         if (almacenProducto.isEmpty()) {

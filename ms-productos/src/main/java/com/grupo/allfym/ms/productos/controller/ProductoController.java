@@ -20,7 +20,7 @@ public class ProductoController {
     @Autowired
     private ProductoService productoService;
 
-    @PostMapping()
+    @PostMapping("")
     public ResponseEntity<?> crearProducto(@RequestBody Producto producto) {
         Producto nuevoProducto = productoService.guardarProducto(producto);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoProducto);
