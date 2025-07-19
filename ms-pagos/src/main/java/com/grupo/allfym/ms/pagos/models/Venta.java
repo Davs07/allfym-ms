@@ -22,7 +22,7 @@ public class Venta {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class DetalleVenta {
-        private String producto;
+        private String productoId;
         private Integer cantidad;
         private BigDecimal precioUnitario;
     }
