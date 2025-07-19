@@ -1,13 +1,16 @@
 package com.grupo.allfym.ms.ventas.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "detalle_ventas")
 public class DetalleVenta {
 
@@ -20,14 +23,16 @@ public class DetalleVenta {
     @JoinColumn(name = "venta_id", nullable = false)
     private Venta venta;
 
-    @NotBlank
-    @Column(name = "producto", nullable = false)
-    private String producto;
+    @NotNull // Cambiado de @NotBlank a @NotNull
+    @Column(name = "producto_id", nullable = false)
+    private Long productoId;
 
+    @NotNull
     @Positive
     @Column(name = "cantidad", nullable = false)
     private Integer cantidad;
 
+    @NotNull
     @Positive
     @Column(name = "precio_unitario", precision = 10, scale = 2, nullable = false)
     private BigDecimal precioUnitario;
@@ -35,11 +40,13 @@ public class DetalleVenta {
     @Column(name = "subtotal", precision = 10, scale = 2)
     private BigDecimal subtotal;
 
+    // Constructor por defecto
     public DetalleVenta() {
     }
 
-    public DetalleVenta(String producto, Integer cantidad, BigDecimal precioUnitario) {
-        this.producto = producto;
+    // Constructor con parámetros
+    public DetalleVenta(Long productoId, Integer cantidad, BigDecimal precioUnitario) {
+        this.productoId = productoId;
         this.cantidad = cantidad;
         this.precioUnitario = precioUnitario;
         calcularSubtotal();
@@ -52,54 +59,14 @@ public class DetalleVenta {
         }
     }
 
-    // Getters y Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Venta getVenta() {
-        return venta;
-    }
-
-    public void setVenta(Venta venta) {
-        this.venta = venta;
-    }
-
-    public String getProducto() {
-        return producto;
-    }
-
-    public void setProducto(String producto) {
-        this.producto = producto;
-    }
-
-    public Integer getCantidad() {
-        return cantidad;
-    }
-
+    // Setters personalizados para recalcular subtotal automáticamente
     public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
         calcularSubtotal();
     }
 
-    public BigDecimal getPrecioUnitario() {
-        return precioUnitario;
-    }
-
     public void setPrecioUnitario(BigDecimal precioUnitario) {
         this.precioUnitario = precioUnitario;
         calcularSubtotal();
-    }
-
-    public BigDecimal getSubtotal() {
-        return subtotal;
-    }
-
-    public void setSubtotal(BigDecimal subtotal) {
-        this.subtotal = subtotal;
     }
 }

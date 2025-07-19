@@ -13,7 +13,7 @@ public interface DetalleVentaRepository extends JpaRepository<DetalleVenta, Long
 
     List<DetalleVenta> findByVentaId(Long ventaId);
 
-    List<DetalleVenta> findByProductoContainingIgnoreCase(String producto);
+    List<DetalleVenta> findByProductoId(Long productoId);
 
     @Query("SELECT dv FROM DetalleVenta dv WHERE dv.venta.id = :ventaId ORDER BY dv.id")
     List<DetalleVenta> findByVentaIdOrderById(@Param("ventaId") Long ventaId);

@@ -19,7 +19,7 @@ public class ClienteResponseDTO {
     }
 
     public ClienteResponseDTO(Long id, String nombre, String apellido, String email, String dni,
-                             String telefono, String direccion, LocalDateTime fechaRegistro, Boolean activo) {
+                              String telefono, String direccion, LocalDateTime fechaRegistro, Boolean activo) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -75,9 +75,13 @@ public class ClienteResponseDTO {
         this.email = email;
     }
 
-    public String getDni() {return dni;}
+    public String getDni() {
+        return dni;
+    }
 
-    public void setDni(String dni) {this.dni = dni;}
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
 
     public String getTelefono() {
         return telefono;

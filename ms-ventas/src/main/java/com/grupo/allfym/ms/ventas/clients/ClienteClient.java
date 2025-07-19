@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "ms-clientes", url = "${microservices.clientes.url:http://localhost:8010}")
+@FeignClient(name = "ms-clientes", url = "http://localhost:8082")
 public interface ClienteClient {
 
     @PostMapping("/api/clientes")

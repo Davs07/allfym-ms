@@ -1,12 +1,12 @@
 package com.grupo.allfym.ms.ventas.services.impl;
 
+
 import com.grupo.allfym.ms.ventas.clients.ClienteClient;
+import com.grupo.allfym.ms.ventas.clients.ProductoClient;
 import com.grupo.allfym.ms.ventas.entity.DetalleVenta;
 import com.grupo.allfym.ms.ventas.entity.Venta;
 import com.grupo.allfym.ms.ventas.enums.EstadoVenta;
-import com.grupo.allfym.ms.ventas.models.ClienteResponseDTO;
-import com.grupo.allfym.ms.ventas.models.VentaRequestDTO;
-import com.grupo.allfym.ms.ventas.models.VentaResponseDTO;
+import com.grupo.allfym.ms.ventas.models.*;
 import com.grupo.allfym.ms.ventas.repositories.VentaRepository;
 import com.grupo.allfym.ms.ventas.services.VentaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +30,9 @@ public class VentaServiceImpl implements VentaService {
     @Autowired
     private ClienteClient clienteClient;
 
+    @Autowired
+    private ProductoClient productoClient;
+
     @Override
     public VentaResponseDTO agregarVenta(VentaRequestDTO ventaRequest) {
         // Validar que el cliente existe usando Feign
@@ -40,10 +44,17 @@ public class VentaServiceImpl implements VentaService {
         Venta venta = new Venta(ventaRequest.getClienteId(), ventaRequest.getMetodoPago());
 
         // Agregar detalles si existen
+
+        // Verificar que existe el producto usando Feign
         if (ventaRequest.getDetalles() != null && !ventaRequest.getDetalles().isEmpty()) {
             for (VentaRequestDTO.DetalleVentaDTO detalleDTO : ventaRequest.getDetalles()) {
+                ResponseEntity<Producto> productoResponse = productoClient.obtenerProductoPorId(detalleDTO.getProductoId());
+                if (productoResponse.getBody() == null) {
+                    throw new RuntimeException("Producto no encontrado: " + detalleDTO.getProductoId());
+                }
+
                 DetalleVenta detalle = new DetalleVenta(
-                    detalleDTO.getProducto(),
+                    detalleDTO.getProductoId(),
                     detalleDTO.getCantidad(),
                     detalleDTO.getPrecioUnitario()
                 );
@@ -120,14 +131,42 @@ public class VentaServiceImpl implements VentaService {
     }
 
     private VentaResponseDTO convertirAVentaResponseDTO(Venta venta) {
+
+        // Convertir detalles de venta a DTO
         List<VentaResponseDTO.DetalleVentaResponseDTO> detallesDTO = venta.getDetalles().stream()
-            .map(detalle -> new VentaResponseDTO.DetalleVentaResponseDTO(
-                detalle.getId(),
-                detalle.getProducto(),
-                detalle.getCantidad(),
-                detalle.getPrecioUnitario(),
-                detalle.getSubtotal()
-            ))
+            .map(detalle -> {
+                // Obtener información del producto usando Feign
+                String productoNombre = "Producto no encontrado";
+                String productoDescripcion = "";
+                BigDecimal productoPrecio = BigDecimal.ZERO;
+                String productoCategoria = "";
+
+                try {
+                    ResponseEntity<Producto> productoResponse = productoClient.obtenerProductoPorId(detalle.getProductoId());
+                    if (productoResponse.getBody() != null) {
+                        Producto producto = productoResponse.getBody();
+                        productoNombre = producto.getNombre();
+                        productoDescripcion = producto.getDescripcion();
+                        productoPrecio = BigDecimal.valueOf(producto.getPrecio());
+                        productoCategoria = producto.getCategoria();
+                    }
+                } catch (Exception e) {
+                    // Si hay error al obtener el producto, usar valores por defecto
+                    productoNombre = "Producto ID: " + detalle.getProductoId();
+                }
+
+                return new VentaResponseDTO.DetalleVentaResponseDTO(
+                    detalle.getId(),
+                    detalle.getProductoId(),
+                    productoNombre,
+                    productoDescripcion,
+                    productoPrecio,
+                    productoCategoria,
+                    detalle.getCantidad(),
+                    detalle.getPrecioUnitario(),
+                    detalle.getSubtotal()
+                );
+            })
             .collect(Collectors.toList());
 
         // Obtener información del cliente usando Feign

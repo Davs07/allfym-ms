@@ -1,6 +1,9 @@
 package com.grupo.allfym.ms.ventas.controller;
 
+import com.grupo.allfym.ms.ventas.clients.ClienteClient;
+import com.grupo.allfym.ms.ventas.clients.ProductoClient;
 import com.grupo.allfym.ms.ventas.enums.EstadoVenta;
+import com.grupo.allfym.ms.ventas.models.ClienteResponseDTO;
 import com.grupo.allfym.ms.ventas.models.VentaRequestDTO;
 import com.grupo.allfym.ms.ventas.models.VentaResponseDTO;
 import com.grupo.allfym.ms.ventas.services.VentaService;
@@ -21,12 +24,27 @@ public class VentaController {
     @Autowired
     private VentaService ventaService;
 
+    @Autowired
+    private ProductoClient productoClient;
+
+    @Autowired
+    private ClienteClient clienteClient;
+
     @PostMapping
     public ResponseEntity<VentaResponseDTO> crearVenta(@Valid @RequestBody VentaRequestDTO ventaRequest) {
         VentaResponseDTO ventaCreada = ventaService.agregarVenta(ventaRequest);
         return new ResponseEntity<>(ventaCreada, HttpStatus.CREATED);
 
     }
+
+    @GetMapping("/test/{id}")
+    public ResponseEntity<?> test(@PathVariable Long id) {
+        ClienteResponseDTO cliente = clienteClient.obtenerClientePorId(id).getBody();
+        return ResponseEntity.ok(
+            cliente != null ? cliente : "Cliente no encontrado"
+        );
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<VentaResponseDTO> obtenerVentaPorId(@PathVariable Long id) {

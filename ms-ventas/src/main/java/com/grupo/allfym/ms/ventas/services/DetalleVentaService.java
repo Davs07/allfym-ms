@@ -15,7 +15,7 @@ public interface DetalleVentaService {
 
     List<DetalleVenta> buscarPorVentaId(Long ventaId);
 
-    List<DetalleVenta> buscarPorProducto(String producto);
+    List<DetalleVenta> buscarPorProducto(Long productoId);
 
     DetalleVenta actualizarDetalle(Long id, DetalleVentaDTO detalleDTO);
 

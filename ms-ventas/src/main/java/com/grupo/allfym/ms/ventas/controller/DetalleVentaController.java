@@ -44,9 +44,9 @@ public class DetalleVentaController {
         return new ResponseEntity<>(detalles, HttpStatus.OK);
     }
 
-    @GetMapping("/producto/{producto}")
-    public ResponseEntity<List<DetalleVenta>> obtenerDetallesPorProducto(@PathVariable String producto) {
-        List<DetalleVenta> detalles = detalleVentaService.buscarPorProducto(producto);
+    @GetMapping("/producto/{productoId}")
+    public ResponseEntity<List<DetalleVenta>> obtenerDetallesPorProducto(@PathVariable Long productoId) {
+        List<DetalleVenta> detalles = detalleVentaService.buscarPorProducto(productoId);
         return new ResponseEntity<>(detalles, HttpStatus.OK);
     }
 

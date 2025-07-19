@@ -26,7 +26,7 @@ public class Venta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    // @NotNull
     @Column(name = "cliente_id", nullable = false)
     private Long clienteId;
 
@@ -59,7 +59,7 @@ public class Venta {
         this.metodoPago = metodoPago;
     }
 
-    // Métodos de dominio - no se eliminan porque contienen lógica de negocio
+    // Métodos de dominio
     public void agregarDetalle(DetalleVenta detalle) {
         detalle.setVenta(this);
         this.detalles.add(detalle);

@@ -29,7 +29,7 @@ public class DetalleVentaServiceImpl implements DetalleVentaService {
             .orElseThrow(() -> new RuntimeException("Venta no encontrada"));
 
         DetalleVenta detalle = new DetalleVenta(
-            detalleDTO.getProducto(),
+            detalleDTO.getProductoId(),
             detalleDTO.getCantidad(),
             detalleDTO.getPrecioUnitario()
         );
@@ -54,8 +54,8 @@ public class DetalleVentaServiceImpl implements DetalleVentaService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<DetalleVenta> buscarPorProducto(String producto) {
-        return detalleVentaRepository.findByProductoContainingIgnoreCase(producto);
+    public List<DetalleVenta> buscarPorProducto(Long productoId) {
+        return detalleVentaRepository.findByProductoId(productoId);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class DetalleVentaServiceImpl implements DetalleVentaService {
         DetalleVenta detalle = detalleVentaRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Detalle de venta no encontrado"));
 
-        detalle.setProducto(detalleDTO.getProducto());
+        detalle.setProductoId(detalleDTO.getProductoId());
         detalle.setCantidad(detalleDTO.getCantidad());
         detalle.setPrecioUnitario(detalleDTO.getPrecioUnitario());
 
