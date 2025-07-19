@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -40,11 +41,45 @@ public class PagoController {
         return lista_pagos;
     }
 
+    @GetMapping("/filtrar_metodo_pago/{metodo}")
+    public List<Pago> listaMetodoPago(@PathVariable String metodo){
+        List<Pago> lista_pagos = service.lista();
+        List<Pago> lista_filtrada = new ArrayList<>();
+        for (Pago p : lista_pagos) {
+            if (p.getComprobantePago().getMetodoPago().toString().equals(metodo)) lista_filtrada.add(p);
+        }
+
+        List<Venta> lista_venta = service.listaVenta();
+        for (Pago pago : lista_filtrada) {
+            if (pago.getPagoVenta() != null) {
+                for (Venta venta : lista_venta) {
+                    if (pago.getPagoVenta().getIdVenta().equals(venta.getId())) {
+                        pago.setVenta(venta);
+                        pago.setMonto(venta.getTotal().doubleValue());
+                        break;
+                    }
+                }
+            }
+        }
+        return lista_filtrada;
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> detalle(@PathVariable Long id) {
         Optional<Pago> op = service.porId(id);
         if (op.isPresent()) {
-            return ResponseEntity.ok(op.get());
+            Pago pago = op.get();
+            List<Venta> lista_venta = service.listaVenta();
+            if (pago.getPagoVenta() != null) {
+                for (Venta venta : lista_venta) {
+                    if (pago.getPagoVenta().getIdVenta().equals(venta.getId())) {
+                        pago.setVenta(venta);
+                        pago.setMonto(venta.getTotal().doubleValue());
+                        break;
+                    }
+                }
+            }
+            return ResponseEntity.ok(pago);
         } return ResponseEntity.notFound().build();
     }
 

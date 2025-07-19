@@ -11,8 +11,8 @@ import java.util.List;
 @FeignClient(name = "ms-almacen", url = "http://localhost:8072/api/almacen")
 public interface AlmacenCliente {
 
-    @PutMapping("/producto/{id}/aumentar")
-    void aumentarStock(@PathVariable("id") Long productoId, @RequestParam("cantidad") Integer cantidad);
+    @PutMapping("/producto/{id}/aumentar-stock/{cantidad}")
+    void aumentarStock(@PathVariable("id") Long productoId, @PathVariable("cantidad") Integer cantidad);
 
     @GetMapping("/productos/simple")
     List<Producto> obtenerProductos();

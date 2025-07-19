@@ -1,13 +1,10 @@
 package com.grupo.allfym.ms.reclamos.models.entity;
 
 import com.grupo.allfym.ms.reclamos.enums.EstadoReclamo;
-import com.grupo.allfym.ms.reclamos.models.Pago;
+import com.grupo.allfym.ms.reclamos.models.Cliente;
 import com.grupo.allfym.ms.reclamos.vo.fechaReclamo;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "ReclamoCliente")
@@ -21,16 +18,15 @@ public class ReclamoCliente {
     private Long idReclamo;
     private String descripcion;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "idPago")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idCliente")
     private ReclamoPago reclamoPago;
     @Transient
-    private Pago pago;
+    private Cliente cliente;
 
     @Enumerated(EnumType.STRING)
     private EstadoReclamo estadoReclamo;
 
     @Embedded
     private fechaReclamo fechaReclamo;
-
 }

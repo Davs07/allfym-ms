@@ -1,6 +1,6 @@
 package com.grupo.allfym.ms.reclamos.client;
 
-import com.grupo.allfym.ms.reclamos.models.Pago;
+import com.grupo.allfym.ms.reclamos.models.Cliente;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "ms-pagos", url = "http://localhost:8040/api/Pago")
-public interface PagoClientRest {
+@FeignClient(name = "ms-clientes", url = "http://localhost:8010/api/clientes")
+public interface ClienteClientRest {
     @GetMapping
-    List<Pago> lista_pagos();
+    List<Cliente> lista_cliente();
     @GetMapping("/{id}")
-    Pago detalle(@PathVariable Long id);
+    Cliente detalle(@PathVariable Long id);
     @PostMapping
-    Pago crear(@RequestBody Pago pago);
+    Cliente crear(@RequestBody Cliente cliente);
 }
