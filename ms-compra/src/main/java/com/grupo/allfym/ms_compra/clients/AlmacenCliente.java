@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient(name = "ms-almacen", url = "http://localhost:8072/api/almacen")
+@FeignClient(name = "ms-almacen", url = "http://localhost:8010/api/almacen")
 public interface AlmacenCliente {
 
     @PutMapping("/producto/{id}/aumentar-stock/{cantidad}")

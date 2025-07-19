@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "ms-proveedores", url = "${microservices.proveedores.url:http://localhost:8010}")
+@FeignClient(name = "ms-proveedores", url = "${microservices.proveedores.url:http://localhost:8060}")
 public interface ProveedorCliente {
 
     @GetMapping("/api/proveedor/{id}")

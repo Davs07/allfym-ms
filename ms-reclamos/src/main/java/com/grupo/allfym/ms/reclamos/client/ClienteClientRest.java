@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "ms-clientes", url = "http://localhost:8010/api/clientes")
+@FeignClient(name = "ms-clientes", url = "http://localhost:8020/api/clientes")
 public interface ClienteClientRest {
     @GetMapping
     List<Cliente> lista_cliente();

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "ms-proveedores", url = "http://localhost:8010/api/proveedor")
+@FeignClient(name = "ms-proveedores", url = "http://localhost:8060/api/proveedor")
 public interface ProveedorCliente {
     @GetMapping
     List<Proveedor> listar();

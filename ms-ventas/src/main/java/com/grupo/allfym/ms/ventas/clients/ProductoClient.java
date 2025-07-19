@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "ms-productos", url = "http://localhost:8070")
+@FeignClient(name = "ms-productos", url = "http://localhost:8050")
 public interface ProductoClient {
 
     @GetMapping("/api/productos/buscar/{id}")
