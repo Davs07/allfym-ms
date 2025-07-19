@@ -23,12 +23,9 @@ public class VentaController {
 
     @PostMapping
     public ResponseEntity<VentaResponseDTO> crearVenta(@Valid @RequestBody VentaRequestDTO ventaRequest) {
-        try {
-            VentaResponseDTO ventaCreada = ventaService.agregarVenta(ventaRequest);
-            return new ResponseEntity<>(ventaCreada, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+        VentaResponseDTO ventaCreada = ventaService.agregarVenta(ventaRequest);
+        return new ResponseEntity<>(ventaCreada, HttpStatus.CREATED);
+
     }
 
     @GetMapping("/{id}")

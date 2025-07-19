@@ -1,13 +1,16 @@
 package com.grupo.allfym.ms.pagos.controller;
 
-import com.grupo.allfym.ms.pagos.entity.Pago;
+import com.grupo.allfym.ms.pagos.models.Venta;
+import com.grupo.allfym.ms.pagos.models.entity.Pago;
 import com.grupo.allfym.ms.pagos.ov.FechaEmision;
 import com.grupo.allfym.ms.pagos.services.PagoServiceImp;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +23,21 @@ public class PagoController {
 
     @GetMapping
     public List<Pago> lista(){
-        return service.lista();
+        List<Pago> lista_pagos = service.lista();
+        List<Venta> lista_venta = service.listaVenta();
+
+        for (Pago pago : lista_pagos) {
+            if (pago.getPagoVenta() != null) {
+                for (Venta venta : lista_venta) {
+                    if (pago.getPagoVenta().getIdVenta().equals(venta.getId())) {
+                        pago.setVenta(venta);
+                        pago.setMonto(venta.getTotal().doubleValue());
+                        break;
+                    }
+                }
+            }
+        }
+        return lista_pagos;
     }
 
     @GetMapping("/{id}")
@@ -58,6 +75,39 @@ public class PagoController {
            service.eliminar(id);
             return ResponseEntity.noContent().build();
         } return ResponseEntity.notFound().build();
+    }
+
+    //Accesos Remotos
+    @PutMapping("/asignar_venta/{pagoid}")
+    public ResponseEntity<?> asignarPago (@RequestBody Venta venta, @PathVariable Long pagoid) {
+        Optional<Venta> op;
+        try {
+            op = service.asignarVenta(venta,pagoid);
+        } catch (FeignException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Collections.singletonMap("Mensaje","No existe la venta por el id " + venta.getId() +
+                            " o hubo error en la comunicación"+e.getMessage()));
+        }
+
+        if (op.isPresent())
+            return ResponseEntity.status(HttpStatus.CREATED).body(op.get());
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/remover_venta/{pagoid}")
+    public ResponseEntity<?> removerPago (@RequestBody Venta venta, @PathVariable Long pagoid) {
+        Optional<Venta> op;
+        try {
+            op = service.removerVenta(venta,pagoid);
+        } catch (FeignException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Collections.singletonMap("Mensaje","No existe la venta por el id " + venta.getId() +
+                            " o hubo error en la comunicación"+e.getMessage()));
+        }
+
+        if (op.isPresent())
+            return ResponseEntity.status(HttpStatus.CREATED).body(op.get());
+        return ResponseEntity.notFound().build();
     }
 
 

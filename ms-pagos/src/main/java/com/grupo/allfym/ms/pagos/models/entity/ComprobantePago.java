@@ -1,4 +1,4 @@
-package com.grupo.allfym.ms.pagos.entity;
+package com.grupo.allfym.ms.pagos.models.entity;
 
 import com.grupo.allfym.ms.pagos.enums.MetodoPago;
 import com.grupo.allfym.ms.pagos.enums.TipoComprobante;

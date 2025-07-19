@@ -50,6 +50,7 @@ public class ReclamoClienteServiceImp implements ReclamoClienteService{
     //Metodos remotos
 
     @Override
+    @Transactional(readOnly = true)
     public List<Pago> lista_pagos() {
         return client.lista_pagos();
     }
