@@ -14,8 +14,8 @@ public class ReclamoPago {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "id_pago", unique = true)
-    private Long idPago;
+    @Column(name = "idCliente", unique = true)
+    private Long idCliente;
 
     @Override
     public boolean equals(Object obj) {
@@ -25,7 +25,7 @@ public class ReclamoPago {
             return false;
 
         ReclamoPago rec = (ReclamoPago) obj;
-        return this.idPago != null && this.idPago.equals(rec.idPago);
+        return this.idCliente != null && this.idCliente.equals(rec.idCliente);
     }
 
 }

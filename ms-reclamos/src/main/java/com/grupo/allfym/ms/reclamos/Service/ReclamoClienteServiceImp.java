@@ -1,13 +1,13 @@
 package com.grupo.allfym.ms.reclamos.Service;
 
 import com.grupo.allfym.ms.reclamos.Repositories.ReclamoClienteRepository;
-import com.grupo.allfym.ms.reclamos.client.PagoClientRest;
-import com.grupo.allfym.ms.reclamos.models.Pago;
+import com.grupo.allfym.ms.reclamos.Repositories.ReclamoPagoRepository;
+import com.grupo.allfym.ms.reclamos.client.ClienteClientRest;
+import com.grupo.allfym.ms.reclamos.enums.EstadoReclamo;
+import com.grupo.allfym.ms.reclamos.models.Cliente;
 import com.grupo.allfym.ms.reclamos.models.entity.ReclamoCliente;
 import com.grupo.allfym.ms.reclamos.models.entity.ReclamoPago;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +21,10 @@ public class ReclamoClienteServiceImp implements ReclamoClienteService{
     private ReclamoClienteRepository repository;
 
     @Autowired
-    private PagoClientRest client;
+    private ClienteClientRest client;
+
+    @Autowired
+    private ReclamoPagoRepository reclamoClienteRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -47,47 +50,65 @@ public class ReclamoClienteServiceImp implements ReclamoClienteService{
         repository.deleteById(id);
     }
 
+    @Override
+    public void cambiarEstado(String estadoN, Long id) {
+        Optional<ReclamoCliente> op = repository.findById(id);
+        if(op.isPresent()){
+            ReclamoCliente reclamo = op.get();
+            try{
+                EstadoReclamo estado = EstadoReclamo.valueOf(estadoN.toUpperCase());
+                reclamo.setEstadoReclamo(estado);
+                repository.save(reclamo);
+            }catch (IllegalArgumentException  e){
+                throw new IllegalArgumentException("Estado inválido: " + estadoN);
+            }
+        }else {
+            throw new IllegalArgumentException("No se encontro el reclamo");
+        }
+    }
+
     //Metodos remotos
 
     @Override
     @Transactional(readOnly = true)
-    public List<Pago> lista_pagos() {
-        return client.lista_pagos();
+    public List<Cliente> lista_clientes() {
+        return client.lista_cliente();
     }
 
     @Override
     @Transactional
-    public Optional<Pago> asignarPago(Pago pago, Long id) {
+    public Optional<Cliente> asignarCliente(Cliente cliente, Long id) {
         Optional<ReclamoCliente> op = repository.findById(id);
         if (op.isPresent()) {
-            Pago pagoMS = client.detalle(pago.getIdPago());
+            Cliente clienteMS = client.detalle(cliente.getId());
 
             ReclamoCliente rec = op.get();
             ReclamoPago recPag = new ReclamoPago();
-            recPag.setIdPago(pagoMS.getIdPago());
+            recPag.setIdCliente(clienteMS.getId());
 
             rec.setReclamoPago(recPag);
             repository.save(rec);
-            return Optional.of(pagoMS);
+            return Optional.of(clienteMS);
         }
         return Optional.empty();
     }
 
     @Override
     @Transactional
-    public Optional<Pago> removerPago(Pago pago, Long id) {
+    public Optional<Cliente> removerCliente(Cliente cliente, Long id) {
         Optional<ReclamoCliente> op = repository.findById(id);
         if (op.isPresent()) {
-          Pago pagoMS = client.detalle(pago.getIdPago());
+            Cliente clienteMS = client.detalle(cliente.getId());
 
-          ReclamoCliente rec = op.get();
-          ReclamoPago reclamoPago = new ReclamoPago();
-          reclamoPago.setIdPago(pagoMS.getIdPago());
+            ReclamoCliente recBD = op.get();
 
-          rec.setReclamoPago(null);
-          repository.save(rec);
-          return Optional.of(pagoMS);
-        } return Optional.empty();
+            reclamoClienteRepository.deleteById(recBD.getReclamoPago().getId()); //Elimina la relación previa
+            recBD.setReclamoPago(null);
+
+            repository.save(recBD);
+            return Optional.of(clienteMS);
+        }
+        return Optional.empty();
     }
 
 

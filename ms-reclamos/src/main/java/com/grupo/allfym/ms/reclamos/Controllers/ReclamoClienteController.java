@@ -1,8 +1,7 @@
 package com.grupo.allfym.ms.reclamos.Controllers;
 
 import com.grupo.allfym.ms.reclamos.Service.ReclamoClienteServiceImp;
-import com.grupo.allfym.ms.reclamos.enums.EstadoReclamo;
-import com.grupo.allfym.ms.reclamos.models.Pago;
+import com.grupo.allfym.ms.reclamos.models.Cliente;
 import com.grupo.allfym.ms.reclamos.models.entity.ReclamoCliente;
 import com.grupo.allfym.ms.reclamos.vo.fechaReclamo;
 import feign.FeignException;
@@ -26,13 +25,13 @@ public class ReclamoClienteController {
     @GetMapping
     public List<ReclamoCliente> listar(){
         List<ReclamoCliente> lista_reclamos = service.listar();
-        List<Pago> lista_pagos = service.lista_pagos();
+        List<Cliente> lista_clientes = service.lista_clientes();
 
         for (ReclamoCliente reclamo : lista_reclamos) {
             if (reclamo.getReclamoPago() != null) {
-                for (Pago pago : lista_pagos) {
-                    if (reclamo.getReclamoPago().getIdPago().equals(pago.getIdPago())) {
-                        reclamo.setPago(pago);
+                for (Cliente cliente : lista_clientes) {
+                    if (reclamo.getReclamoPago().getIdCliente().equals(cliente.getId())) {
+                        reclamo.setCliente(cliente);
                         break;
                     }
                 }
@@ -46,12 +45,12 @@ public class ReclamoClienteController {
         Optional<ReclamoCliente> op = service.porId(id);
         if (op.isPresent()) {
             ReclamoCliente recBD = op.get();
-            List<Pago> pagos = service.lista_pagos();
+            List<Cliente> lista_clientes = service.lista_clientes();
 
             if (recBD.getReclamoPago() != null) {
-                for (Pago p : pagos) {
-                    if (recBD.getReclamoPago().getIdPago().equals(p.getIdPago())) {
-                        recBD.setPago(p);
+                for (Cliente c : lista_clientes) {
+                    if (recBD.getReclamoPago().getIdCliente().equals(c.getId())) {
+                        recBD.setCliente(c);
                         break;
                     }
                 }
@@ -99,18 +98,40 @@ public class ReclamoClienteController {
         for (ReclamoCliente rec : service.listar()) {
             if (rec.getEstadoReclamo().toString().equals(estado)) lista.add(rec);
         }
+
+        List<Cliente> lista_clientes = service.lista_clientes();
+        for (ReclamoCliente reclamo : lista) {
+            if (reclamo.getReclamoPago() != null) {
+                for (Cliente cliente : lista_clientes) {
+                    if (reclamo.getReclamoPago().getIdCliente().equals(cliente.getId())) {
+                        reclamo.setCliente(cliente);
+                        break;
+                    }
+                }
+            }
+        }
         return lista;
     }
 
+    @PutMapping("/cambiar_estado/{estado}/{id}")
+    public ResponseEntity<?> cambiarEstado (@PathVariable String estado, @PathVariable Long id) {
+        Optional<ReclamoCliente> op = service.porId(id);
+        if (op.isPresent()) {
+           service.cambiarEstado(estado,id);
+           return ResponseEntity.ok("Estado Actualizado");
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     //Accesos remotos
-    @PutMapping("/asignar_pago/{reclamoid}")
-    public ResponseEntity<?> asignarPago (@RequestBody Pago pago, @PathVariable Long reclamoid) {
-        Optional<Pago> op;
+    @PutMapping("/asignar_cliente/{reclamoid}")
+    public ResponseEntity<?> asignarCliente (@RequestBody Cliente cliente, @PathVariable Long reclamoid) {
+        Optional<Cliente> op;
         try {
-            op = service.asignarPago(pago,reclamoid);
+            op = service.asignarCliente(cliente,reclamoid);
         } catch (FeignException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Collections.singletonMap("Mensaje","No existe el pago por el id " + pago.getIdPago() +
+                    .body(Collections.singletonMap("Mensaje","No existe el pago por el id " + cliente.getId() +
                             " o hubo error en la comunicación"+e.getMessage()));
         }
 
@@ -119,14 +140,14 @@ public class ReclamoClienteController {
        return ResponseEntity.notFound().build();
     }
 
-    @PutMapping("/remover_pago/{reclamoid}")
-    public ResponseEntity<?> removerPago (@RequestBody Pago pago, @PathVariable Long reclamoid) {
-        Optional<Pago> op;
+    @PutMapping("/remover_cliente/{reclamoid}")
+    public ResponseEntity<?> removerCliente (@RequestBody Cliente cliente, @PathVariable Long reclamoid) {
+        Optional<Cliente> op;
         try {
-            op = service.removerPago(pago,reclamoid);
+            op = service.removerCliente(cliente,reclamoid);
         } catch (FeignException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Collections.singletonMap("Mensaje","No existe el pago por el id " + pago.getIdPago() +
+                    .body(Collections.singletonMap("Mensaje","No existe el pago por el id " + cliente.getId() +
                             " o hubo error en la comunicación"+e.getMessage()));
         }
 
