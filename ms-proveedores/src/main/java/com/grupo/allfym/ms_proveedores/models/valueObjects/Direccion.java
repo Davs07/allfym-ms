@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @Embeddable
 @Data
 @NoArgsConstructor
-//@AllArgsConstructor
 public class Direccion {
     private String calle;
     private String ciudad;
@@ -24,4 +23,5 @@ public class Direccion {
         this.codigoPostal = codigoPostal;
         this.pais = pais;
     }
+
 }

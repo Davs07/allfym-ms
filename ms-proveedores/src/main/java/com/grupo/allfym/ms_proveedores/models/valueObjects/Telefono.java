@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 
 @Embeddable
 @Data
-@NoArgsConstructor
 //@AllArgsConstructor
+@NoArgsConstructor
 public class Telefono {
     private String numero;
 

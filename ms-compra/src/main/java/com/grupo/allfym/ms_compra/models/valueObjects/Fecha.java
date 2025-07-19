@@ -8,9 +8,19 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Embeddable
 public class Fecha {
-    LocalDate fecha;
+    private LocalDate fecha;
+
+    public Fecha() {
+        this.fecha = LocalDate.now();
+    }
+
+    public Fecha(LocalDate fecha) {
+        if (fecha == null) {
+            this.fecha = LocalDate.now();
+        } else {
+            this.fecha = fecha;
+        }
+    }
 }
