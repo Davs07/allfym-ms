@@ -2,8 +2,8 @@ package com.grupo.allfym.ms.ventas.repositories;
 
 import com.grupo.allfym.ms.ventas.entity.Venta;
 import com.grupo.allfym.ms.ventas.enums.EstadoVenta;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface VentaRepository extends JpaRepository<Venta, Long> {
+public interface VentaRepository extends CrudRepository<Venta, Long> {
 
     List<Venta> findByClienteId(Long clienteId);
 

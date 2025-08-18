@@ -1,19 +1,17 @@
 package com.grupo.allfym.ms.clientes.services.impl;
 
 import com.grupo.allfym.ms.clientes.entity.Cliente;
-import com.grupo.allfym.ms.clientes.models.ClienteRequestDTO;
-import com.grupo.allfym.ms.clientes.models.ClienteResponseDTO;
-import com.grupo.allfym.ms.clientes.ov.EmailAddress;
-import com.grupo.allfym.ms.clientes.ov.Telefono;
 import com.grupo.allfym.ms.clientes.repositories.ClienteRepository;
 import com.grupo.allfym.ms.clientes.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 @Transactional
@@ -23,7 +21,7 @@ public class ClienteServiceImpl implements ClienteService {
     private ClienteRepository clienteRepository;
 
     @Override
-    public ClienteResponseDTO agregarCliente(ClienteRequestDTO clienteRequest) {
+    public Cliente agregarCliente(Cliente clienteRequest) {
         // Validar que el DNI no esté duplicado si se proporciona
         if (clienteRequest.getDni() != null && !clienteRequest.getDni().trim().isEmpty()) {
             Optional<Cliente> clienteExistente = clienteRepository.findByDni(clienteRequest.getDni());
@@ -31,24 +29,21 @@ public class ClienteServiceImpl implements ClienteService {
                 throw new RuntimeException("Ya existe un cliente con el DNI: " + clienteRequest.getDni());
             }
         }
-
-        Cliente cliente = new Cliente();
-        cliente.setNombre(clienteRequest.getNombre());
-        cliente.setApellido(clienteRequest.getApellido());
-        cliente.setDni(clienteRequest.getDni());
-        cliente.setEmail(new EmailAddress(clienteRequest.getEmail()));
-        cliente.setTelefono(new Telefono(clienteRequest.getTelefono()));
-        cliente.setDireccion(clienteRequest.getDireccion());
-
-        Cliente clienteGuardado = clienteRepository.save(cliente);
-        return convertirAClienteResponseDTO(clienteGuardado);
+        // Validar email y teléfono
+        if (clienteRequest.getEmail() == null || clienteRequest.getEmail().getValor() == null) {
+            throw new RuntimeException("El email es obligatorio");
+        }
+        if (clienteRequest.getTelefono() == null || clienteRequest.getTelefono() == null) {
+            throw new RuntimeException("El teléfono es obligatorio");
+        }
+        Cliente clienteGuardado = clienteRepository.save(clienteRequest);
+        return clienteGuardado;
     }
 
     @Override
-    public ClienteResponseDTO actualizarCliente(Long id, ClienteRequestDTO clienteRequest) {
+    public Cliente actualizarCliente(Long id, Cliente clienteRequest) {
         Cliente cliente = clienteRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
-
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
         // Validar que el DNI no esté duplicado si se proporciona y es diferente al actual
         if (clienteRequest.getDni() != null && !clienteRequest.getDni().trim().isEmpty()) {
             Optional<Cliente> clienteExistente = clienteRepository.findByDni(clienteRequest.getDni());
@@ -56,16 +51,14 @@ public class ClienteServiceImpl implements ClienteService {
                 throw new RuntimeException("Ya existe un cliente con el DNI: " + clienteRequest.getDni());
             }
         }
-
         cliente.setNombre(clienteRequest.getNombre());
         cliente.setApellido(clienteRequest.getApellido());
         cliente.setDni(clienteRequest.getDni());
-        cliente.setEmail(new EmailAddress(clienteRequest.getEmail()));
-        cliente.setTelefono(new Telefono(clienteRequest.getTelefono()));
+        cliente.setEmail(clienteRequest.getEmail());
+        cliente.setTelefono(clienteRequest.getTelefono());
         cliente.setDireccion(clienteRequest.getDireccion());
-
         Cliente clienteActualizado = clienteRepository.save(cliente);
-        return convertirAClienteResponseDTO(clienteActualizado);
+        return clienteActualizado;
     }
 
     @Override
@@ -75,88 +68,63 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<ClienteResponseDTO> buscarPorId(Long id) {
-        return clienteRepository.findById(id)
-            .map(this::convertirAClienteResponseDTO);
+    public Optional<Cliente> buscarPorId(Long id) {
+        return clienteRepository.findById(id);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<ClienteResponseDTO> buscarPorNombre(String nombre) {
-        return clienteRepository.findByNombreContainingIgnoreCaseOrApellidoContainingIgnoreCase(nombre, nombre)
-            .stream()
-            .map(this::convertirAClienteResponseDTO)
-            .collect(Collectors.toList());
+    public List<Cliente> buscarPorNombre(String nombre) {
+        return clienteRepository.findByNombreContainingIgnoreCaseOrApellidoContainingIgnoreCase(nombre, nombre);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<ClienteResponseDTO> obtenerTodosLosClientes() {
-        return clienteRepository.findAll().stream()
-            .map(this::convertirAClienteResponseDTO)
-            .collect(Collectors.toList());
+    public List<Cliente> obtenerTodosLosClientes() {
+        List<Cliente> clientes = new ArrayList<>();
+        clienteRepository.findAll().forEach(clientes::add);
+        return clientes;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<ClienteResponseDTO> obtenerClientesActivos() {
-        return clienteRepository.findByActivoTrue().stream()
-            .map(this::convertirAClienteResponseDTO)
-            .collect(Collectors.toList());
+    public List<Cliente> obtenerClientesActivos() {
+        return clienteRepository.findByActivoTrue();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<ClienteResponseDTO> buscarPorEmail(String email) {
-        return clienteRepository.findByEmailValor(email)
-            .map(this::convertirAClienteResponseDTO);
+    public Optional<Cliente> buscarPorEmail(String email) {
+        return clienteRepository.findByEmail(email);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<ClienteResponseDTO> buscarPorTelefono(String telefono) {
-        return clienteRepository.findByTelefono(telefono)
-            .map(this::convertirAClienteResponseDTO);
+    public Optional<Cliente> buscarPorTelefono(String telefono) {
+        return clienteRepository.findByTelefono(telefono);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<ClienteResponseDTO> buscarPorDni(String dni) {
-        return clienteRepository.findByDni(dni)
-            .map(this::convertirAClienteResponseDTO);
+    public Optional<Cliente> buscarPorDni(String dni) {
+        return clienteRepository.findByDni(dni);
     }
 
     @Override
-    public ClienteResponseDTO desactivarCliente(Long id) {
+    public Cliente desactivarCliente(Long id) {
         Cliente cliente = clienteRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
-
         cliente.setActivo(false);
         Cliente clienteActualizado = clienteRepository.save(cliente);
-        return convertirAClienteResponseDTO(clienteActualizado);
+        return clienteActualizado;
     }
 
     @Override
-    public ClienteResponseDTO activarCliente(Long id) {
+    public Cliente activarCliente(Long id) {
         Cliente cliente = clienteRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
-
         cliente.setActivo(true);
         Cliente clienteActualizado = clienteRepository.save(cliente);
-        return convertirAClienteResponseDTO(clienteActualizado);
-    }
-
-    private ClienteResponseDTO convertirAClienteResponseDTO(Cliente cliente) {
-        return new ClienteResponseDTO(
-            cliente.getId(),
-            cliente.getNombre(),
-            cliente.getApellido(),
-            cliente.getEmail() != null ? cliente.getEmail().getValor() : null,
-            cliente.getDni(),
-            cliente.getTelefono() != null ? cliente.getTelefono().getNumero() : null,
-            cliente.getDireccion(),
-            cliente.getFechaRegistro().getFechaRegistro(),
-            cliente.getActivo()
-        );
+        return clienteActualizado;
     }
 }

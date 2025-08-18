@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 @Setter
 @Table(name = "detalle_ventas")
 public class DetalleVenta {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,7 +22,7 @@ public class DetalleVenta {
     @JoinColumn(name = "venta_id", nullable = false)
     private Venta venta;
 
-    @NotNull // Cambiado de @NotBlank a @NotNull
+    @NotNull
     @Column(name = "producto_id", nullable = false)
     private Long productoId;
 
@@ -40,11 +39,9 @@ public class DetalleVenta {
     @Column(name = "subtotal", precision = 10, scale = 2)
     private BigDecimal subtotal;
 
-    // Constructor por defecto
     public DetalleVenta() {
     }
 
-    // Constructor con parámetros
     public DetalleVenta(Long productoId, Integer cantidad, BigDecimal precioUnitario) {
         this.productoId = productoId;
         this.cantidad = cantidad;
@@ -52,21 +49,10 @@ public class DetalleVenta {
         calcularSubtotal();
     }
 
-    // Método de dominio: calcular subtotal
+    // Método dominio para calcular el subtotal
     public void calcularSubtotal() {
         if (cantidad != null && precioUnitario != null) {
             this.subtotal = precioUnitario.multiply(BigDecimal.valueOf(cantidad));
         }
-    }
-
-    // Setters personalizados para recalcular subtotal automáticamente
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
-        calcularSubtotal();
-    }
-
-    public void setPrecioUnitario(BigDecimal precioUnitario) {
-        this.precioUnitario = precioUnitario;
-        calcularSubtotal();
     }
 }
