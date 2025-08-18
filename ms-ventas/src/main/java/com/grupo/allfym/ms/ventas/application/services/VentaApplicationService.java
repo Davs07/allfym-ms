@@ -11,11 +11,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Servicio de aplicación para ventas.
- * Actúa como facade entre la infraestructura y los casos de uso.
- * Mantiene la misma interfaz que el VentaService original para facilitar migración.
- */
 @Service
 public class VentaApplicationService {
 

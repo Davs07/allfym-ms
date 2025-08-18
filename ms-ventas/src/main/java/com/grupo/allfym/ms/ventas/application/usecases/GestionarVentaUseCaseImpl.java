@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Implementación del caso de uso para gestionar ventas.
+ * Implementación para gestionar ventas.
  */
 @Component
 @Transactional

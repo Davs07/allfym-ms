@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Implementación del caso de uso para crear ventas.
+ * Implementación para crear ventas.
  */
 @Component
 @Transactional

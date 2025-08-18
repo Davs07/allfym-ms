@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Implementación del caso de uso para buscar ventas.
+ * Implementación para buscar ventas.
  */
 @Component
 @Transactional(readOnly = true)
