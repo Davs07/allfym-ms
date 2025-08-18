@@ -20,9 +20,7 @@ public class AlmacenServiceAdapter implements AlmacenServicePort {
     @Override
     public void reducirStock(Long productoId, int cantidad) {
         try {
-            // Convertimos Long a String porque nuestro dominio simplificado usa String
-            String productoString = productoId != null ? productoId.toString() : "0";
-            almacenClient.reducirStock(productoString, cantidad);
+            almacenClient.reducirStock(productoId, cantidad);
         } catch (Exception e) {
             System.err.println("Error al reducir stock: " + e.getMessage());
             throw new RuntimeException("No se pudo reducir el stock del producto: " + productoId, e);

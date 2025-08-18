@@ -52,7 +52,7 @@ public class GestionarVentaUseCaseImpl implements GestionarVentaUseCase {
         // Restaurar stock si la venta tenía productos
         for (DetalleVenta detalle : venta.getDetalles()) {
             try {
-                almacenService.restaurarStock(Long.valueOf(detalle.getProducto()), detalle.getCantidad());
+                almacenService.restaurarStock(detalle.getProductoId(), detalle.getCantidad());
             } catch (Exception e) {
                 // Log del error, pero no falla la cancelación
                 System.err.println("Error al restaurar stock: " + e.getMessage());

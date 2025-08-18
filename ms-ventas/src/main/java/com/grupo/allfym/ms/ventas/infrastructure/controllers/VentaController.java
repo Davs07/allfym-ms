@@ -142,11 +142,11 @@ public class VentaController {
      * Convierte VentaRequestDto a CrearVentaCommand.
      */
     private CrearVentaCommand convertirACommand(VentaRequestDto dto) {
-        List<DetalleVentaCommand> detallesCommand = dto.getDetalles().stream()
-                .map(detalle -> new DetalleVentaCommand(
-                        detalle.getProducto(),
-                        detalle.getCantidad(),
-                        detalle.getPrecioUnitario()))
+    List<DetalleVentaCommand> detallesCommand = dto.getDetalles().stream()
+        .map(detalle -> new DetalleVentaCommand(
+            detalle.getProductoId(),
+            detalle.getCantidad(),
+            detalle.getPrecioUnitario()))
                 .collect(Collectors.toList());
 
         return new CrearVentaCommand(
@@ -181,9 +181,9 @@ public class VentaController {
      * Convierte DetalleVenta de dominio a DetalleVentaResponseDto.
      */
     private VentaResponseDto.DetalleVentaResponseDto convertirDetalleAResponseDto(DetalleVenta detalle) {
-        return new VentaResponseDto.DetalleVentaResponseDto(
-                detalle.getId(),
-                detalle.getProducto(),
+    return new VentaResponseDto.DetalleVentaResponseDto(
+        detalle.getId(),
+        detalle.getProductoId(),
                 detalle.getCantidad(),
                 detalle.getPrecioUnitario(),
                 detalle.getSubtotal()

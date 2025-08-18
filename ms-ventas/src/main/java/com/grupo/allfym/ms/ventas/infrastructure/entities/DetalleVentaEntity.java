@@ -24,8 +24,8 @@ public class DetalleVentaEntity {
     private VentaEntity venta;
 
     @NotNull
-    @Column(name = "producto", nullable = false)
-    private String producto;
+    @Column(name = "producto_id", nullable = false)
+    private Long productoId;
 
     @NotNull
     @Positive
@@ -44,8 +44,8 @@ public class DetalleVentaEntity {
     public DetalleVentaEntity() {
     }
 
-    public DetalleVentaEntity(String producto, Integer cantidad, BigDecimal precioUnitario) {
-        this.producto = producto;
+    public DetalleVentaEntity(Long productoId, Integer cantidad, BigDecimal precioUnitario) {
+        this.productoId = productoId;
         this.cantidad = cantidad;
         this.precioUnitario = precioUnitario;
         this.subtotal = calcularSubtotal();
@@ -76,12 +76,12 @@ public class DetalleVentaEntity {
         this.venta = venta;
     }
 
-    public String getProducto() {
-        return producto;
+    public Long getProductoId() {
+        return productoId;
     }
 
-    public void setProducto(String producto) {
-        this.producto = producto;
+    public void setProductoId(Long productoId) {
+        this.productoId = productoId;
     }
 
     public Integer getCantidad() {
@@ -127,7 +127,7 @@ public class DetalleVentaEntity {
     public String toString() {
         return "DetalleVentaEntity{" +
                 "id=" + id +
-                ", producto='" + producto + '\'' +
+                ", productoId=" + productoId +
                 ", cantidad=" + cantidad +
                 ", subtotal=" + subtotal +
                 '}';

@@ -133,11 +133,11 @@ public class JpaVentaRepositoryAdapter implements VentaRepositoryPort {
      * Convierte detalle de dominio a entidad JPA.
      */
     private DetalleVentaEntity convertirDetalleAEntity(DetalleVenta detalle, VentaEntity ventaEntity) {
-        DetalleVentaEntity entity = new DetalleVentaEntity();
+    DetalleVentaEntity entity = new DetalleVentaEntity();
         
         entity.setId(detalle.getId());
         entity.setVenta(ventaEntity);
-        entity.setProducto(detalle.getProducto());
+        entity.setProductoId(detalle.getProductoId());
         entity.setCantidad(detalle.getCantidad());
         entity.setPrecioUnitario(detalle.getPrecioUnitario());
         entity.setSubtotal(detalle.getSubtotal());
@@ -149,10 +149,10 @@ public class JpaVentaRepositoryAdapter implements VentaRepositoryPort {
      * Convierte entidad JPA a detalle de dominio.
      */
     private DetalleVenta convertirDetalleADominio(DetalleVentaEntity entity) {
-        DetalleVenta detalle = new DetalleVenta();
+    DetalleVenta detalle = new DetalleVenta();
         
         detalle.setId(entity.getId());
-        detalle.setProducto(entity.getProducto());
+        detalle.setProductoId(entity.getProductoId());
         detalle.setCantidad(entity.getCantidad());
         detalle.setPrecioUnitario(entity.getPrecioUnitario());
         detalle.setSubtotal(entity.getSubtotal());

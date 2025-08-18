@@ -43,13 +43,13 @@ public interface CrearVentaUseCase {
      * Comando para crear un detalle de venta.
      */
     record DetalleVentaCommand(
-        String producto,
+        Long productoId,
         int cantidad,
         java.math.BigDecimal precioUnitario
     ) {
         public DetalleVentaCommand {
-            if (producto == null || producto.trim().isEmpty()) {
-                throw new IllegalArgumentException("El producto es requerido");
+            if (productoId == null) {
+                throw new IllegalArgumentException("El ID del producto es requerido");
             }
             if (cantidad <= 0) {
                 throw new IllegalArgumentException("La cantidad debe ser mayor a cero");

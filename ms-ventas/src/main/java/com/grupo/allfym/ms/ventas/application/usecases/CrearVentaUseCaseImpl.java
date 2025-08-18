@@ -46,18 +46,15 @@ public class CrearVentaUseCaseImpl implements CrearVentaUseCase {
 
         // 3. Validar y procesar detalles de la venta
         for (DetalleVentaCommand detalleCmd : command.detalles()) {
-            // Para simplificar, asumimos que el producto existe si no está vacío
-            if (detalleCmd.producto() == null || detalleCmd.producto().trim().isEmpty()) {
-                throw new IllegalArgumentException("Producto no puede estar vacío");
+            // Validación básica del productoId
+            if (detalleCmd.productoId() == null) {
+                throw new IllegalArgumentException("El ID de producto es requerido");
             }
-            
-            // En un caso real, podríamos validar contra el servicio de productos
-            // Por ahora, asumimos que hay stock suficiente
 
             // Crear detalle de venta
             DetalleVenta detalle = new DetalleVenta(
-                detalleCmd.producto(), 
-                detalleCmd.cantidad(), 
+                detalleCmd.productoId(),
+                detalleCmd.cantidad(),
                 detalleCmd.precioUnitario()
             );
             venta.agregarDetalle(detalle);

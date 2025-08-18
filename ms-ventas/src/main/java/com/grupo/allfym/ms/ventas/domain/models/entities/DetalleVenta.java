@@ -9,7 +9,7 @@ public class DetalleVenta {
 
     private Long id;
     private Venta venta;
-    private String producto;
+    private Long productoId;
     private Integer cantidad;
     private BigDecimal precioUnitario;
     private BigDecimal subtotal;
@@ -17,8 +17,8 @@ public class DetalleVenta {
     public DetalleVenta() {
     }
 
-    public DetalleVenta(String producto, Integer cantidad, BigDecimal precioUnitario) {
-        this.producto = producto;
+    public DetalleVenta(Long productoId, Integer cantidad, BigDecimal precioUnitario) {
+        this.productoId = productoId;
         this.cantidad = cantidad;
         this.precioUnitario = precioUnitario;
         calcularSubtotal();
@@ -48,12 +48,12 @@ public class DetalleVenta {
         this.venta = venta;
     }
 
-    public String getProducto() {
-        return producto;
+    public Long getProductoId() {
+        return productoId;
     }
 
-    public void setProducto(String producto) {
-        this.producto = producto;
+    public void setProductoId(Long productoId) {
+        this.productoId = productoId;
     }
 
     public Integer getCantidad() {
@@ -99,7 +99,7 @@ public class DetalleVenta {
     public String toString() {
         return "DetalleVenta{" +
                 "id=" + id +
-                ", producto='" + producto + '\'' +
+                ", productoId=" + productoId +
                 ", cantidad=" + cantidad +
                 ", precioUnitario=" + precioUnitario +
                 ", subtotal=" + subtotal +

@@ -96,8 +96,8 @@ public class VentaResponseDto {
      */
     public static class DetalleVentaResponseDto {
         
-        private Long id;
-        private String producto;
+    private Long id;
+    private Long productoId;
         private Integer cantidad;
         private BigDecimal precioUnitario;
         private BigDecimal subtotal;
@@ -106,10 +106,10 @@ public class VentaResponseDto {
         public DetalleVentaResponseDto() {
         }
 
-        public DetalleVentaResponseDto(Long id, String producto, Integer cantidad, 
+    public DetalleVentaResponseDto(Long id, Long productoId, Integer cantidad, 
                                       BigDecimal precioUnitario, BigDecimal subtotal) {
             this.id = id;
-            this.producto = producto;
+            this.productoId = productoId;
             this.cantidad = cantidad;
             this.precioUnitario = precioUnitario;
             this.subtotal = subtotal;
@@ -124,12 +124,12 @@ public class VentaResponseDto {
             this.id = id;
         }
 
-        public String getProducto() {
-            return producto;
+        public Long getProductoId() {
+            return productoId;
         }
 
-        public void setProducto(String producto) {
-            this.producto = producto;
+        public void setProductoId(Long productoId) {
+            this.productoId = productoId;
         }
 
         public Integer getCantidad() {

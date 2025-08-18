@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.PutMapping;
 public interface AlmacenClient {
 
     @PutMapping("/producto/{idProducto}/reducir-stock/{cantidad}")
-    void reducirStock(@PathVariable("idProducto") String producto, @PathVariable("cantidad") Integer cantidad);
+    void reducirStock(@PathVariable("idProducto") Long productoId, @PathVariable("cantidad") Integer cantidad);
 }

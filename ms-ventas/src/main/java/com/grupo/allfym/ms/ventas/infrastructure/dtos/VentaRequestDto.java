@@ -64,8 +64,8 @@ public class VentaRequestDto {
      */
     public static class DetalleVentaDto {
         
-        @NotNull(message = "El producto es obligatorio")
-        private String producto;
+    @NotNull(message = "El ID del producto es obligatorio")
+    private Long productoId;
 
         @Positive(message = "La cantidad debe ser positiva")
         private Integer cantidad;
@@ -77,19 +77,19 @@ public class VentaRequestDto {
         public DetalleVentaDto() {
         }
 
-        public DetalleVentaDto(String producto, Integer cantidad, BigDecimal precioUnitario) {
-            this.producto = producto;
+        public DetalleVentaDto(Long productoId, Integer cantidad, BigDecimal precioUnitario) {
+            this.productoId = productoId;
             this.cantidad = cantidad;
             this.precioUnitario = precioUnitario;
         }
 
         // Getters y Setters
-        public String getProducto() {
-            return producto;
+        public Long getProductoId() {
+            return productoId;
         }
 
-        public void setProducto(String producto) {
-            this.producto = producto;
+        public void setProductoId(Long productoId) {
+            this.productoId = productoId;
         }
 
         public Integer getCantidad() {
