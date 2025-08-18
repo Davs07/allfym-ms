@@ -59,7 +59,6 @@ public class Venta {
         this.metodoPago = metodoPago;
     }
 
-    // Métodos de dominio
     public void agregarDetalle(DetalleVenta detalle) {
         detalle.setVenta(this);
         this.detalles.add(detalle);

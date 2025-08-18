@@ -40,12 +40,5 @@ public class VentaRequestDTO {
         @Positive(message = "El precio unitario debe ser positivo")
         private BigDecimal precioUnitario;
 
-        // Método para calcular subtotal
-        public BigDecimal calcularSubtotal() {
-            if (cantidad != null && precioUnitario != null) {
-                return precioUnitario.multiply(BigDecimal.valueOf(cantidad));
-            }
-            return BigDecimal.ZERO;
-        }
     }
 }

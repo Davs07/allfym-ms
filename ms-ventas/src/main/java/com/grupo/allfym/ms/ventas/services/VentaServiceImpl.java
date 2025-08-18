@@ -1,5 +1,4 @@
-package com.grupo.allfym.ms.ventas.services.impl;
-
+package com.grupo.allfym.ms.ventas.services;
 
 import com.grupo.allfym.ms.ventas.clients.AlmacenClient;
 import com.grupo.allfym.ms.ventas.clients.ClienteClient;
@@ -9,7 +8,6 @@ import com.grupo.allfym.ms.ventas.entity.Venta;
 import com.grupo.allfym.ms.ventas.enums.EstadoVenta;
 import com.grupo.allfym.ms.ventas.models.*;
 import com.grupo.allfym.ms.ventas.repositories.VentaRepository;
-import com.grupo.allfym.ms.ventas.services.VentaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,9 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -40,8 +38,8 @@ public class VentaServiceImpl implements VentaService {
     @Override
     @Transactional
     public VentaResponseDTO agregarVenta(VentaRequestDTO ventaRequest) {
-        // Validar que el cliente existe usando Feign
-        ResponseEntity<ClienteResponseDTO> clienteResponse = clienteClient.obtenerClientePorId(ventaRequest.getClienteId());
+        // Validar que el cliente existe
+        ResponseEntity<Cliente> clienteResponse = clienteClient.obtenerClientePorId(ventaRequest.getClienteId());
         if (clienteResponse.getBody() == null) {
             throw new RuntimeException("Cliente no encontrado");
         }
@@ -51,14 +49,11 @@ public class VentaServiceImpl implements VentaService {
         // Agregar detalles si existen
         if (ventaRequest.getDetalles() != null && !ventaRequest.getDetalles().isEmpty()) {
             for (VentaRequestDTO.DetalleVentaDTO detalleDTO : ventaRequest.getDetalles()) {
-                // Verificar que existe el producto usando Feign
+                // Verificar que existe el producto
                 ResponseEntity<Producto> productoResponse = productoClient.obtenerProductoPorId(detalleDTO.getProductoId());
                 if (productoResponse.getBody() == null) {
                     throw new RuntimeException("Producto no encontrado: " + detalleDTO.getProductoId());
                 }
-
-                // Verificar stock disponible antes de procesar la venta
-                Producto producto = productoResponse.getBody();
 
                 DetalleVenta detalle = new DetalleVenta(
                         detalleDTO.getProductoId(),
@@ -90,40 +85,68 @@ public class VentaServiceImpl implements VentaService {
     @Override
     @Transactional(readOnly = true)
     public Optional<VentaResponseDTO> buscarPorId(Long id) {
-        return ventaRepository.findById(id)
-                .map(this::convertirAVentaResponseDTO);
+        Optional<Venta> ventaOpt = ventaRepository.findById(id);
+        if (ventaOpt.isPresent()) {
+            VentaResponseDTO ventaDTO = convertirAVentaResponseDTO(ventaOpt.get());
+            return Optional.of(ventaDTO);
+        }
+        return Optional.empty();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<VentaResponseDTO> obtenerTodasLasVentas() {
-        return ventaRepository.findAll().stream()
-                .map(this::convertirAVentaResponseDTO)
-                .collect(Collectors.toList());
+        List<VentaResponseDTO> ventasDTO = new ArrayList<>();
+        Iterable<Venta> ventas = ventaRepository.findAll();
+
+        for (Venta venta : ventas) {
+            VentaResponseDTO ventaDTO = convertirAVentaResponseDTO(venta);
+            ventasDTO.add(ventaDTO);
+        }
+
+        return ventasDTO;
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<VentaResponseDTO> buscarPorClienteId(Long clienteId) {
-        return ventaRepository.findByClienteId(clienteId).stream()
-                .map(this::convertirAVentaResponseDTO)
-                .collect(Collectors.toList());
+        List<VentaResponseDTO> ventasDTO = new ArrayList<>();
+        List<Venta> ventas = ventaRepository.findByClienteId(clienteId);
+
+        for (Venta venta : ventas) {
+            VentaResponseDTO ventaDTO = convertirAVentaResponseDTO(venta);
+            ventasDTO.add(ventaDTO);
+        }
+
+        return ventasDTO;
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<VentaResponseDTO> buscarPorEstado(EstadoVenta estado) {
-        return ventaRepository.findByEstado(estado).stream()
-                .map(this::convertirAVentaResponseDTO)
-                .collect(Collectors.toList());
+        List<VentaResponseDTO> ventasDTO = new ArrayList<>();
+        List<Venta> ventas = ventaRepository.findByEstado(estado);
+
+        for (Venta venta : ventas) {
+            VentaResponseDTO ventaDTO = convertirAVentaResponseDTO(venta);
+            ventasDTO.add(ventaDTO);
+        }
+
+        return ventasDTO;
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<VentaResponseDTO> buscarPorFechaRegistro(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
-        return ventaRepository.findByFechaRegistroBetween(fechaInicio, fechaFin).stream()
-                .map(this::convertirAVentaResponseDTO)
-                .collect(Collectors.toList());
+        List<VentaResponseDTO> ventasDTO = new ArrayList<>();
+        List<Venta> ventas = ventaRepository.findByFechaRegistroBetween(fechaInicio, fechaFin);
+
+        for (Venta venta : ventas) {
+            VentaResponseDTO ventaDTO = convertirAVentaResponseDTO(venta);
+            ventasDTO.add(ventaDTO);
+        }
+
+        return ventasDTO;
     }
 
     @Override
@@ -152,48 +175,48 @@ public class VentaServiceImpl implements VentaService {
     }
 
     private VentaResponseDTO convertirAVentaResponseDTO(Venta venta) {
-
         // Convertir detalles de venta a DTO
-        List<VentaResponseDTO.DetalleVentaResponseDTO> detallesDTO = venta.getDetalles().stream()
-                .map(detalle -> {
-                    // Obtener información del producto usando Feign
-                    String productoNombre = "Producto no encontrado";
-                    String productoDescripcion = "";
-                    BigDecimal productoPrecio = BigDecimal.ZERO;
-                    String productoCategoria = "";
+        List<VentaResponseDTO.DetalleVentaResponseDTO> detallesDTO = new ArrayList<>();
 
-                    try {
-                        ResponseEntity<Producto> productoResponse = productoClient.obtenerProductoPorId(detalle.getProductoId());
-                        if (productoResponse.getBody() != null) {
-                            Producto producto = productoResponse.getBody();
-                            productoNombre = producto.getNombre();
-                            productoDescripcion = producto.getDescripcion();
-                            productoPrecio = BigDecimal.valueOf(producto.getPrecio());
-                            productoCategoria = producto.getCategoria();
-                        }
-                    } catch (Exception e) {
-                        // Si hay error al obtener el producto, usar valores por defecto
-                        productoNombre = "Producto ID: " + detalle.getProductoId();
-                    }
+        for (DetalleVenta detalle : venta.getDetalles()) {
+            // Obtener información del producto usando Feign
+            String productoNombre = "Producto no encontrado";
+            String productoDescripcion = "";
+            BigDecimal productoPrecio = BigDecimal.ZERO;
+            String productoCategoria = "";
 
-                    return new VentaResponseDTO.DetalleVentaResponseDTO(
-                            detalle.getId(),
-                            detalle.getProductoId(),
-                            productoNombre,
-                            productoDescripcion,
-                            productoPrecio,
-                            productoCategoria,
-                            detalle.getCantidad(),
-                            detalle.getPrecioUnitario(),
-                            detalle.getSubtotal()
-                    );
-                })
-                .collect(Collectors.toList());
+            try {
+                ResponseEntity<Producto> productoResponse = productoClient.obtenerProductoPorId(detalle.getProductoId());
+                if (productoResponse.getBody() != null) {
+                    Producto producto = productoResponse.getBody();
+                    productoNombre = producto.getNombre();
+                    productoDescripcion = producto.getDescripcion();
+                    productoPrecio = BigDecimal.valueOf(producto.getPrecio());
+                    productoCategoria = producto.getCategoria();
+                }
+            } catch (Exception e) {
+                // Si hay error al obtener el producto, usar valores por defecto
+                productoNombre = "Producto ID: " + detalle.getProductoId();
+            }
+
+            VentaResponseDTO.DetalleVentaResponseDTO detalleDTO = new VentaResponseDTO.DetalleVentaResponseDTO(
+                    detalle.getId(),
+                    detalle.getProductoId(),
+                    productoNombre,
+                    productoDescripcion,
+                    productoPrecio,
+                    productoCategoria,
+                    detalle.getCantidad(),
+                    detalle.getPrecioUnitario(),
+                    detalle.getSubtotal()
+            );
+            detallesDTO.add(detalleDTO);
+        }
 
         // Obtener información del cliente usando Feign
         String nombreCliente = "Cliente no encontrado";
         try {
-            ResponseEntity<ClienteResponseDTO> clienteResponse = clienteClient.obtenerClientePorId(venta.getClienteId());
+            ResponseEntity<Cliente> clienteResponse = clienteClient.obtenerClientePorId(venta.getClienteId());
             if (clienteResponse.getBody() != null) {
                 nombreCliente = clienteResponse.getBody().getNombreCompleto();
             }

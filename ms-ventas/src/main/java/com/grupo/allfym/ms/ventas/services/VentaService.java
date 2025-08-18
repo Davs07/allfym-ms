@@ -1,6 +1,5 @@
 package com.grupo.allfym.ms.ventas.services;
 
-import com.grupo.allfym.ms.ventas.entity.Venta;
 import com.grupo.allfym.ms.ventas.enums.EstadoVenta;
 import com.grupo.allfym.ms.ventas.models.VentaRequestDTO;
 import com.grupo.allfym.ms.ventas.models.VentaResponseDTO;
@@ -11,10 +10,8 @@ import java.util.Optional;
 
 public interface VentaService {
 
-    // Método de dominio: agregar venta
     VentaResponseDTO agregarVenta(VentaRequestDTO ventaRequest);
 
-    // Método de dominio: buscar por ID
     Optional<VentaResponseDTO> buscarPorId(Long id);
 
     List<VentaResponseDTO> obtenerTodasLasVentas();
