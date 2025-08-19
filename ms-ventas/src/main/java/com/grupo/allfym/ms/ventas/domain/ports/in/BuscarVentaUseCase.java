@@ -19,5 +19,4 @@ public interface BuscarVentaUseCase {
     
     List<Venta> buscarPorRangoFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin);
  
-    List<Venta> buscarPorClienteYEstado(Long clienteId, EstadoVenta estado);
 }

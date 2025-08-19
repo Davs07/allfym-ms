@@ -4,8 +4,7 @@ import com.grupo.allfym.ms.ventas.application.services.VentaApplicationService;
 import com.grupo.allfym.ms.ventas.domain.models.entities.Venta;
 import com.grupo.allfym.ms.ventas.domain.models.entities.DetalleVenta;
 import com.grupo.allfym.ms.ventas.domain.models.enums.EstadoVenta;
-import com.grupo.allfym.ms.ventas.domain.ports.in.CrearVentaUseCase.CrearVentaCommand;
-import com.grupo.allfym.ms.ventas.domain.ports.in.CrearVentaUseCase.DetalleVentaCommand;
+// Eliminado: ya no usamos Commands, convertimos directo a dominio
 import com.grupo.allfym.ms.ventas.infrastructure.dtos.VentaRequestDto;
 import com.grupo.allfym.ms.ventas.infrastructure.dtos.VentaResponseDto;
 import jakarta.validation.Valid;
@@ -33,13 +32,12 @@ public class VentaController {
         try {
             System.out.println("Recibiendo la venta: " + ventaRequest);
             
-            // Convertir DTO a Command
-            CrearVentaCommand command = convertirACommand(ventaRequest);
+            // Convertir DTO a la entidad de dominio directamente
+            Venta venta = VentaRequestDto.toDomainModel(ventaRequest);
+
+            Venta ventaCreada = ventaApplicationService.crearVenta(venta);
             
-            // Ejecutar caso de uso
-            Venta ventaCreada = ventaApplicationService.crearVenta(command);
-            
-            // Convertir respuesta a DTO
+            // Convertir la respuesta al DTO
             VentaResponseDto response = convertirAResponseDto(ventaCreada);
             
             return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -103,7 +101,7 @@ public class VentaController {
             VentaResponseDto response = convertirAResponseDto(ventaConfirmada);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
@@ -114,7 +112,7 @@ public class VentaController {
             VentaResponseDto response = convertirAResponseDto(ventaCancelada);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
@@ -125,7 +123,7 @@ public class VentaController {
             VentaResponseDto response = convertirAResponseDto(ventaEntregada);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
@@ -137,21 +135,6 @@ public class VentaController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
-
-    private CrearVentaCommand convertirACommand(VentaRequestDto dto) {
-    List<DetalleVentaCommand> detallesCommand = dto.getDetalles().stream()
-        .map(detalle -> new DetalleVentaCommand(
-            detalle.getProductoId(),
-            detalle.getCantidad(),
-            detalle.getPrecioUnitario()))
-                .collect(Collectors.toList());
-
-        return new CrearVentaCommand(
-                dto.getClienteId(),
-                dto.getMetodoPago().name(), // Convertir enum a String
-                detallesCommand
-        );
     }
 
     private VentaResponseDto convertirAResponseDto(Venta venta) {
@@ -172,9 +155,7 @@ public class VentaController {
         return response;
     }
 
-    /**
-     * Convierte DetalleVenta de dominio a DetalleVentaResponseDto.
-     */
+    // Convierte el DetalleVenta de dominio a DetalleVentaResponseDto
     private VentaResponseDto.DetalleVentaResponseDto convertirDetalleAResponseDto(DetalleVenta detalle) {
     return new VentaResponseDto.DetalleVentaResponseDto(
         detalle.getId(),

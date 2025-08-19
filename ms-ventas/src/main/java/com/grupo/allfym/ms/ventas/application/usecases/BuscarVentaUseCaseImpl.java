@@ -46,8 +46,4 @@ public class BuscarVentaUseCaseImpl implements BuscarVentaUseCase {
         return ventaRepository.buscarPorRangoFechas(fechaInicio, fechaFin);
     }
 
-    @Override
-    public List<Venta> buscarPorClienteYEstado(Long clienteId, EstadoVenta estado) {
-        return ventaRepository.buscarPorClienteIdYEstado(clienteId, estado);
-    }
 }

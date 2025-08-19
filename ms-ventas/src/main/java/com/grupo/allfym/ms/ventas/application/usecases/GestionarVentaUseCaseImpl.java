@@ -38,7 +38,7 @@ public class GestionarVentaUseCaseImpl implements GestionarVentaUseCase {
     @Override
     public Venta cancelarVenta(Long ventaId) {
         Venta venta = ventaRepository.buscarPorId(ventaId)
-                .orElseThrow(() -> new IllegalArgumentException("Venta no encontrada: " + ventaId));
+                .orElseThrow(() -> new IllegalArgumentException("Venta no encontrada con el id: " + ventaId));
 
         if (venta.getEstado() == EstadoVenta.CANCELADA || venta.getEstado() == EstadoVenta.ENTREGADA) {
             throw new IllegalStateException("No se puede cancelar una venta en estado: " + venta.getEstado());

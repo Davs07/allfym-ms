@@ -1,5 +1,7 @@
 package com.grupo.allfym.ms.ventas.infrastructure.dtos;
 
+import com.grupo.allfym.ms.ventas.domain.models.entities.DetalleVenta;
+import com.grupo.allfym.ms.ventas.domain.models.entities.Venta;
 import com.grupo.allfym.ms.ventas.domain.models.enums.MetodoPago;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
@@ -52,6 +54,25 @@ public class VentaRequestDto {
 
     public void setDetalles(List<DetalleVentaDto> detalles) {
         this.detalles = detalles;
+    }
+
+    // Conversión al modelo de dominio
+    public static Venta toDomainModel(VentaRequestDto dto) {
+        Venta venta = new Venta(
+                dto.getClienteId(),
+                dto.getMetodoPago()
+        );
+        if (dto.getDetalles() != null) {
+            for (DetalleVentaDto d : dto.getDetalles()) {
+                DetalleVenta detalle = new DetalleVenta(
+                        d.getProductoId(),
+                        d.getCantidad(),
+                        d.getPrecioUnitario()
+                );
+                venta.agregarDetalle(detalle);
+            }
+        }
+        return venta;
     }
 
  

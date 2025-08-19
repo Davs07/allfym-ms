@@ -26,8 +26,8 @@ public class VentaApplicationService {
         this.gestionarVentaUseCase = gestionarVentaUseCase;
     }
 
-    public Venta crearVenta(CrearVentaUseCase.CrearVentaCommand command) {
-        return crearVentaUseCase.crear(command);
+    public Venta crearVenta(Venta venta) {
+        return crearVentaUseCase.crear(venta);
     }
 
     public Optional<Venta> buscarPorId(Long id) {
