@@ -9,9 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * Implementación simple del caso de uso para listar clientes
- */
 @Component
 @Transactional(readOnly = true)
 public class ListarClientesUseCaseImpl implements ListarClientesUseCase {

@@ -14,9 +14,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-/**
- * Adaptador simple que implementa el puerto de repositorio
- */
 @Component
 public class ClienteRepositoryAdapter implements ClienteRepositoryPort {
 

@@ -1,8 +1,5 @@
 package com.grupo.allfym.ms.clientes.infrastructure.dtos;
 
-/**
- * DTO simple para las peticiones de creación/actualización de clientes
- */
 public class ClienteRequestDto {
     
     private String nombre;

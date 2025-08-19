@@ -6,9 +6,6 @@ import com.grupo.allfym.ms.clientes.domain.ports.out.ClienteRepositoryPort;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Implementación simple del caso de uso para gestionar estados de clientes
- */
 @Component
 @Transactional
 public class GestionarEstadoClienteUseCaseImpl implements GestionarEstadoClienteUseCase {

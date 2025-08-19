@@ -3,9 +3,6 @@ package com.grupo.allfym.ms.clientes.infrastructure.entities;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-/**
- * Entidad JPA simple para Cliente
- */
 @Entity
 @Table(name = "clientes")
 public class ClienteEntity {

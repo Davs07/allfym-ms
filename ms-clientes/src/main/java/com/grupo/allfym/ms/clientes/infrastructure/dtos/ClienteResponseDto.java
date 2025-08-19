@@ -2,9 +2,6 @@ package com.grupo.allfym.ms.clientes.infrastructure.dtos;
 
 import java.time.LocalDateTime;
 
-/**
- * DTO simple para las respuestas de clientes
- */
 public class ClienteResponseDto {
     
     private Long id;

@@ -10,10 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Servicio de aplicación que actúa como fachada simple
- * Delega todas las operaciones a los casos de uso correspondientes
- */
 @Service
 public class ClienteApplicationService {
     

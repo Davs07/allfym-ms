@@ -6,9 +6,6 @@ import com.grupo.allfym.ms.clientes.domain.ports.out.ClienteRepositoryPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Configuración súper simple para inyección de dependencias
- */
 @Configuration
 public class ClienteConfig {
 

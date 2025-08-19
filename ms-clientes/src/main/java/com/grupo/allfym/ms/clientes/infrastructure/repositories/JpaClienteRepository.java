@@ -9,14 +9,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Repositorio JPA simple para Cliente
- */
 @Repository
 public interface JpaClienteRepository extends JpaRepository<ClienteEntity, Long> {
 
     Optional<ClienteEntity> findByEmail(String email);
-    
+
     Optional<ClienteEntity> findByDni(String dni);
     
     boolean existsByEmail(String email);

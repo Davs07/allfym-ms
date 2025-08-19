@@ -9,9 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-/**
- * Implementación simple del caso de uso para buscar clientes
- */
 @Component
 @Transactional(readOnly = true)
 public class BuscarClienteUseCaseImpl implements BuscarClienteUseCase {

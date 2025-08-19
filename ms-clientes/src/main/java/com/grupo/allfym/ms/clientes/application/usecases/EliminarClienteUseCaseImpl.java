@@ -5,9 +5,6 @@ import com.grupo.allfym.ms.clientes.domain.ports.out.ClienteRepositoryPort;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Implementación simple del caso de uso para eliminar clientes
- */
 @Component
 @Transactional
 public class EliminarClienteUseCaseImpl implements EliminarClienteUseCase {

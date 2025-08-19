@@ -7,10 +7,6 @@ import com.grupo.allfym.ms.clientes.domain.models.ov.Telefono;
 
 import java.util.Objects;
 
-/**
- * Entidad de dominio Cliente - Aggregate Root
- * Contiene las reglas de negocio principales del cliente
- */
 public class Cliente {
     
     private final Long id;
