@@ -1,6 +1,6 @@
 package com.grupo.allfym.ms_compra.infrastucture.clients;
 
-import com.grupo.allfym.ms.compra.infrastucture.dtos.ProductoDto;
+import com.grupo.allfym.ms_compra.infrastucture.dtos.ProductoDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

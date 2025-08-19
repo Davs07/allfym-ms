@@ -1,6 +1,6 @@
 package com.grupo.allfym.ms_compra.domain.ports.out;
 
-import com.grupo.allfym.ms.compra.domain.models.Producto;
+import com.grupo.allfym.ms_compra.domain.models.Producto;
 
 import java.util.List;
 

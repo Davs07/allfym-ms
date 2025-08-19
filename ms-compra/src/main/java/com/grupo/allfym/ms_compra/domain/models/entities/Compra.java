@@ -1,7 +1,7 @@
 package com.grupo.allfym.ms_compra.domain.models.entities;
 
 import com.grupo.allfym.ms_compra.domain.models.enums.Estado;
-import com.grupo.allfym.ms.compra.domain.models.vo.Fecha;
+import com.grupo.allfym.ms_compra.domain.models.vo.Fecha;
 
 import java.util.List;
 

@@ -1,13 +1,13 @@
 package com.grupo.allfym.ms_compra.application.usecases;
 
-import com.grupo.allfym.ms.compra.domain.models.Producto;
-import com.grupo.allfym.ms.compra.domain.models.Proveedor;
-import com.grupo.allfym.ms.compra.domain.models.entities.Compra;
-import com.grupo.allfym.ms.compra.domain.models.entities.DetalleCompra;
-import com.grupo.allfym.ms.compra.domain.ports.in.GuardarCompraUseCase;
-import com.grupo.allfym.ms.compra.domain.ports.out.AlmacenServicePort;
-import com.grupo.allfym.ms.compra.domain.ports.out.CompraRepositoryPort;
-import com.grupo.allfym.ms.compra.domain.ports.out.ProveedorServicePort;
+import com.grupo.allfym.ms_compra.domain.models.Producto;
+import com.grupo.allfym.ms_compra.domain.models.Proveedor;
+import com.grupo.allfym.ms_compra.domain.models.entities.Compra;
+import com.grupo.allfym.ms_compra.domain.models.entities.DetalleCompra;
+import com.grupo.allfym.ms_compra.domain.ports.in.GuardarCompraUseCase;
+import com.grupo.allfym.ms_compra.domain.ports.out.AlmacenServicePort;
+import com.grupo.allfym.ms_compra.domain.ports.out.CompraRepositoryPort;
+import com.grupo.allfym.ms_compra.domain.ports.out.ProveedorServicePort;
 
 import java.util.List;
 import java.util.Optional;

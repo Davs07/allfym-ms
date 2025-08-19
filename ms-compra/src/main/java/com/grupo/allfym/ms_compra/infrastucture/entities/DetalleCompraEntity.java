@@ -1,7 +1,7 @@
 package com.grupo.allfym.ms_compra.infrastucture.entities;
 
 
-import com.grupo.allfym.ms.compra.domain.models.entities.DetalleCompra;
+import com.grupo.allfym.ms_compra.domain.models.entities.DetalleCompra;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

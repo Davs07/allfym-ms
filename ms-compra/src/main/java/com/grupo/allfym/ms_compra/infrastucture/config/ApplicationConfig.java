@@ -1,16 +1,16 @@
 package com.grupo.allfym.ms_compra.infrastucture.config;
 
-import com.grupo.allfym.ms.compra.application.services.CompraService;
-import com.grupo.allfym.ms.compra.application.usecases.*;
-import com.grupo.allfym.ms.compra.domain.ports.out.AlmacenServicePort;
-import com.grupo.allfym.ms.compra.domain.ports.out.CompraRepositoryPort;
-import com.grupo.allfym.ms.compra.domain.ports.out.ProveedorServicePort;
-import com.grupo.allfym.ms.compra.infrastucture.adapters.AlmacenServiceAdapter;
-import com.grupo.allfym.ms.compra.infrastucture.adapters.ProveedorServiceAdapter;
-import com.grupo.allfym.ms.compra.infrastucture.clients.AlmacenClient;
-import com.grupo.allfym.ms.compra.infrastucture.clients.ProveedorClient;
-import com.grupo.allfym.ms.compra.infrastucture.repositories.JpaCompraRepository;
-import com.grupo.allfym.ms.compra.infrastucture.repositories.JpaCompraRepositoryAdapter;
+import com.grupo.allfym.ms_compra.application.services.CompraService;
+import com.grupo.allfym.ms_compra.application.usecases.*;
+import com.grupo.allfym.ms_compra.domain.ports.out.AlmacenServicePort;
+import com.grupo.allfym.ms_compra.domain.ports.out.CompraRepositoryPort;
+import com.grupo.allfym.ms_compra.domain.ports.out.ProveedorServicePort;
+import com.grupo.allfym.ms_compra.infrastucture.adapters.AlmacenServiceAdapter;
+import com.grupo.allfym.ms_compra.infrastucture.adapters.ProveedorServiceAdapter;
+import com.grupo.allfym.ms_compra.infrastucture.clients.AlmacenClient;
+import com.grupo.allfym.ms_compra.infrastucture.clients.ProveedorClient;
+import com.grupo.allfym.ms_compra.infrastucture.repositories.JpaCompraRepository;
+import com.grupo.allfym.ms_compra.infrastucture.repositories.JpaCompraRepositoryAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

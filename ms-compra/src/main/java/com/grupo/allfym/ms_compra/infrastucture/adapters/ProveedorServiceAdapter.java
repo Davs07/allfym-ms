@@ -1,9 +1,9 @@
 package com.grupo.allfym.ms_compra.infrastucture.adapters;
 
-import com.grupo.allfym.ms.compra.domain.models.Proveedor;
-import com.grupo.allfym.ms.compra.domain.ports.out.ProveedorServicePort;
-import com.grupo.allfym.ms.compra.infrastucture.clients.ProveedorClient;
-import com.grupo.allfym.ms.compra.infrastucture.dtos.ProveedorDto;
+import com.grupo.allfym.ms_compra.domain.models.Proveedor;
+import com.grupo.allfym.ms_compra.domain.ports.out.ProveedorServicePort;
+import com.grupo.allfym.ms_compra.infrastucture.clients.ProveedorClient;
+import com.grupo.allfym.ms_compra.infrastucture.dtos.ProveedorDto;
 
 import java.util.List;
 import java.util.Optional;

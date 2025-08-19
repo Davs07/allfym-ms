@@ -1,10 +1,10 @@
 package com.grupo.allfym.ms_compra.application.usecases;
 
-import com.grupo.allfym.ms.compra.domain.models.Proveedor;
-import com.grupo.allfym.ms.compra.domain.models.entities.Compra;
-import com.grupo.allfym.ms.compra.domain.ports.in.BuscarComprasPorProveedorUseCase;
-import com.grupo.allfym.ms.compra.domain.ports.out.CompraRepositoryPort;
-import com.grupo.allfym.ms.compra.domain.ports.out.ProveedorServicePort;
+import com.grupo.allfym.ms_compra.domain.models.Proveedor;
+import com.grupo.allfym.ms_compra.domain.models.entities.Compra;
+import com.grupo.allfym.ms_compra.domain.ports.in.BuscarComprasPorProveedorUseCase;
+import com.grupo.allfym.ms_compra.domain.ports.out.CompraRepositoryPort;
+import com.grupo.allfym.ms_compra.domain.ports.out.ProveedorServicePort;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.grupo.allfym.ms_compra.application.usecases;
 
-import com.grupo.allfym.ms.compra.domain.ports.in.EliminarCompraUseCase;
-import com.grupo.allfym.ms.compra.domain.ports.out.CompraRepositoryPort;
+import com.grupo.allfym.ms_compra.domain.ports.in.EliminarCompraUseCase;
+import com.grupo.allfym.ms_compra.domain.ports.out.CompraRepositoryPort;
 
 public class EliminarCompraUseCaseImpl implements EliminarCompraUseCase {
     private final CompraRepositoryPort compraRepositoryPort;

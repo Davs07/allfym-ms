@@ -1,9 +1,9 @@
 package com.grupo.allfym.ms_compra.application.usecases;
 
-import com.grupo.allfym.ms.compra.domain.models.entities.Compra;
-import com.grupo.allfym.ms.compra.domain.models.enums.Estado;
-import com.grupo.allfym.ms.compra.domain.ports.in.CambiarEstadoCompraUseCase;
-import com.grupo.allfym.ms.compra.domain.ports.out.CompraRepositoryPort;
+import com.grupo.allfym.ms_compra.domain.models.entities.Compra;
+import com.grupo.allfym.ms_compra.domain.models.enums.Estado;
+import com.grupo.allfym.ms_compra.domain.ports.in.CambiarEstadoCompraUseCase;
+import com.grupo.allfym.ms_compra.domain.ports.out.CompraRepositoryPort;
 
 import java.util.Optional;
 

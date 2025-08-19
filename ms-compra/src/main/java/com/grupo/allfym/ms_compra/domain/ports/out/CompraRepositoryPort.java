@@ -1,7 +1,7 @@
 package com.grupo.allfym.ms_compra.domain.ports.out;
 
-import com.grupo.allfym.ms.compra.domain.models.entities.Compra;
-import com.grupo.allfym.ms.compra.domain.models.enums.Estado;
+import com.grupo.allfym.ms_compra.domain.models.entities.Compra;
+import com.grupo.allfym.ms_compra.domain.models.enums.Estado;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,8 +1,8 @@
 package com.grupo.allfym.ms_compra.infrastucture.adapters;
 
-import com.grupo.allfym.ms.compra.domain.models.Producto;
-import com.grupo.allfym.ms.compra.domain.ports.out.AlmacenServicePort;
-import com.grupo.allfym.ms.compra.infrastucture.clients.AlmacenClient;
+import com.grupo.allfym.ms_compra.domain.models.Producto;
+import com.grupo.allfym.ms_compra.domain.ports.out.AlmacenServicePort;
+import com.grupo.allfym.ms_compra.infrastucture.clients.AlmacenClient;
 
 import java.util.List;
 import java.util.stream.Collectors;

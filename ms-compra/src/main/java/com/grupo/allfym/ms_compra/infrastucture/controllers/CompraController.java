@@ -1,10 +1,10 @@
 package com.grupo.allfym.ms_compra.infrastucture.controllers;
 
-import com.grupo.allfym.ms.compra.application.services.CompraService;
-import com.grupo.allfym.ms.compra.domain.models.entities.Compra;
-import com.grupo.allfym.ms.compra.domain.models.entities.DetalleCompra;
-import com.grupo.allfym.ms.compra.domain.models.enums.Estado;
-import com.grupo.allfym.ms.compra.infrastucture.dtos.CambiarEstadoRequest;
+import com.grupo.allfym.ms_compra.application.services.CompraService;
+import com.grupo.allfym.ms_compra.domain.models.entities.Compra;
+import com.grupo.allfym.ms_compra.domain.models.entities.DetalleCompra;
+import com.grupo.allfym.ms_compra.domain.models.enums.Estado;
+import com.grupo.allfym.ms_compra.infrastucture.dtos.CambiarEstadoRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

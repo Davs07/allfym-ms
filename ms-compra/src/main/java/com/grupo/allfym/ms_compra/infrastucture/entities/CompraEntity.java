@@ -1,9 +1,9 @@
 package com.grupo.allfym.ms_compra.infrastucture.entities;
 
-import com.grupo.allfym.ms.compra.domain.models.entities.Compra;
-import com.grupo.allfym.ms.compra.domain.models.entities.DetalleCompra;
-import com.grupo.allfym.ms.compra.domain.models.enums.Estado;
-import com.grupo.allfym.ms.compra.domain.models.vo.Fecha;
+import com.grupo.allfym.ms_compra.domain.models.entities.Compra;
+import com.grupo.allfym.ms_compra.domain.models.entities.DetalleCompra;
+import com.grupo.allfym.ms_compra.domain.models.enums.Estado;
+import com.grupo.allfym.ms_compra.domain.models.vo.Fecha;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
