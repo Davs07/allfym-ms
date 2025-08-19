@@ -31,7 +31,7 @@ public class VentaController {
     @PostMapping
     public ResponseEntity<?> crearVenta(@Valid @RequestBody VentaRequestDto ventaRequest) {
         try {
-            System.out.println("Recibiendo request: " + ventaRequest);
+            System.out.println("Recibiendo la venta: " + ventaRequest);
             
             // Convertir DTO a Command
             CrearVentaCommand command = convertirACommand(ventaRequest);

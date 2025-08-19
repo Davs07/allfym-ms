@@ -48,6 +48,9 @@ public class CrearVentaUseCaseImpl implements CrearVentaUseCase {
                 throw new IllegalArgumentException("El ID de producto es requerido");
             }
 
+            // Hacer que el producto reduzca su stock usando almacen
+            almacenService.reducirStock(detalleCmd.productoId(), detalleCmd.cantidad());
+
             // Crear detalle de venta
             DetalleVenta detalle = new DetalleVenta(
                 detalleCmd.productoId(),
