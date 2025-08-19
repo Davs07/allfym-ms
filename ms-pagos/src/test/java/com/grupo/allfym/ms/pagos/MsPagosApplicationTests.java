@@ -1,4 +1,4 @@
-package com.grupo.allfym.ms.pagos;
+package com.grupo.allfym.ms_proveedores.pagos;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

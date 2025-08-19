@@ -1,4 +1,4 @@
-package com.grupo.allfym.ms.almacen;
+package com.grupo.allfym.ms_proveedores.almacen;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

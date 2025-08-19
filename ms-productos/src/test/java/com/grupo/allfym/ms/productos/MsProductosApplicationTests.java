@@ -1,4 +1,4 @@
-package com.grupo.allfym.ms.productos;
+package com.grupo.allfym.ms_proveedores.productos;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

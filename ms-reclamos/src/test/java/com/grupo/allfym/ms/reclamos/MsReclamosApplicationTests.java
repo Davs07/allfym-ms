@@ -1,4 +1,4 @@
-package com.grupo.allfym.ms.reclamos;
+package com.grupo.allfym.ms_proveedores.reclamos;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
