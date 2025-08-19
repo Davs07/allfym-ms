@@ -14,16 +14,16 @@ public class ClienteEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nombre", nullable = false)
+    @Column(name = "nombre")
     private String nombre;
 
-    @Column(name = "apellido", nullable = false)
+    @Column(name = "apellido")
     private String apellido;
 
-    @Column(name = "dni", unique = true, nullable = false)
+    @Column(name = "dni", unique = true)
     private String dni;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "telefono")
@@ -39,7 +39,9 @@ public class ClienteEntity {
     private LocalDateTime fechaRegistro;
 
     // Constructors
-    public ClienteEntity() {}
+    public ClienteEntity() {
+        // Constructor vacío para JPA
+    }
 
     public ClienteEntity(String nombre, String apellido, String dni, String email, 
                         String telefono, String direccion, String estado, LocalDateTime fechaRegistro) {

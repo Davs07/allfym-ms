@@ -128,18 +128,18 @@ public class ClienteController {
         }
     }
 
-    // Mapper súper simple
+    // Mapper súper simple - Maneja valores nulos
     private ClienteResponseDto toResponseDto(Cliente cliente) {
         return new ClienteResponseDto(
                 cliente.getId(),
                 cliente.getNombre(),
                 cliente.getApellido(),
                 cliente.getDni(),
-                cliente.getEmail().getValor(),
-                cliente.getTelefono().getNumero(),
+                cliente.getEmail() != null ? cliente.getEmail().getValor() : null,
+                cliente.getTelefono() != null ? cliente.getTelefono().getNumero() : null,
                 cliente.getDireccion(),
-                cliente.getEstado().name(),
-                cliente.getFechaRegistro().getFechaRegistro()
+                cliente.getEstado() != null ? cliente.getEstado().name() : null,
+                cliente.getFechaRegistro() != null ? cliente.getFechaRegistro().getFechaRegistro() : null
         );
     }
 }

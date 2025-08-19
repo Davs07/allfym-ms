@@ -76,6 +76,7 @@ public class ClienteRepositoryAdapter implements ClienteRepositoryPort {
         return jpaClienteRepository.findAll()
                 .stream()
                 .map(this::toDomain)
+                .filter(cliente -> cliente != null) // Filtrar registros que no se pudieron convertir
                 .collect(Collectors.toList());
     }
 
@@ -102,19 +103,30 @@ public class ClienteRepositoryAdapter implements ClienteRepositoryPort {
         return jpaClienteRepository.countByEstado(estado.name());
     }
 
-    // Mappers súper simples
+    // Mappers súper simples - Solo convierte, no valida
     private Cliente toDomain(ClienteEntity entity) {
-        return new Cliente(
-                entity.getId(),
-                entity.getNombre(),
-                entity.getApellido(),
-                entity.getDni(),
-                new EmailAddress(entity.getEmail()),
-                new Telefono(entity.getTelefono()),
-                entity.getDireccion(),
-                new FechaRegistro(entity.getFechaRegistro()),
-                EstadoCliente.valueOf(entity.getEstado())
-        );
+        // Si hay campos críticos nulos, simplemente saltamos este registro
+        if (entity.getId() == null) {
+            return null;
+        }
+        
+        try {
+            return new Cliente(
+                    entity.getId(),
+                    entity.getNombre(),
+                    entity.getApellido(),
+                    entity.getDni(),
+                    entity.getEmail() != null ? new EmailAddress(entity.getEmail()) : null,
+                    entity.getTelefono() != null ? new Telefono(entity.getTelefono()) : null,
+                    entity.getDireccion(),
+                    entity.getFechaRegistro() != null ? new FechaRegistro(entity.getFechaRegistro()) : null,
+                    entity.getEstado() != null ? EstadoCliente.valueOf(entity.getEstado()) : null
+            );
+        } catch (Exception e) {
+            // Si hay algún error al convertir, simplemente retornamos null
+            // El registro se saltará
+            return null;
+        }
     }
 
     private ClienteEntity toEntity(Cliente cliente) {

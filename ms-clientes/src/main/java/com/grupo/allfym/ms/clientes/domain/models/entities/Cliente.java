@@ -37,18 +37,18 @@ public class Cliente {
         this.estado = EstadoCliente.ACTIVO;
     }
 
-    // Constructor para entidad existente (con ID)
+    // Constructor para entidad existente (con ID) - Permite nulos para datos de BD
     public Cliente(Long id, String nombre, String apellido, String dni, EmailAddress email,
                    Telefono telefono, String direccion, FechaRegistro fechaRegistro, EstadoCliente estado) {
         this.id = id;
-        this.nombre = validarNombre(nombre);
-        this.apellido = validarApellido(apellido);
-        this.dni = validarDni(dni);
-        this.email = Objects.requireNonNull(email, "El email no puede ser nulo");
-        this.telefono = Objects.requireNonNull(telefono, "El teléfono no puede ser nulo");
+        this.nombre = nombre; // Permitir nulos
+        this.apellido = apellido; // Permitir nulos
+        this.dni = dni; // Permitir nulos
+        this.email = email; // Permitir nulos
+        this.telefono = telefono; // Permitir nulos
         this.direccion = direccion;
-        this.fechaRegistro = Objects.requireNonNull(fechaRegistro, "La fecha de registro no puede ser nula");
-        this.estado = Objects.requireNonNull(estado, "El estado no puede ser nulo");
+        this.fechaRegistro = fechaRegistro; // Permitir nulos
+        this.estado = estado; // Permitir nulos
     }
 
     // Métodos de negocio
