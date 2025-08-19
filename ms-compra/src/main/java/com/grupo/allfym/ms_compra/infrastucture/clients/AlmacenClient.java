@@ -13,6 +13,6 @@ public interface AlmacenClient {
     @PutMapping("/producto/{id}/aumentar-stock/{cantidad}")
     void aumentarStock(@PathVariable("id") Long productoId, @PathVariable("cantidad") Integer cantidad);
 
-    @GetMapping("/productos/simple")
+    @GetMapping("/productos")
     List<ProductoDto> obtenerProductos();
 }
