@@ -9,9 +9,6 @@ import com.grupo.allfym.ms.ventas.domain.ports.out.AlmacenServicePort;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Implementación para gestionar ventas.
- */
 @Component
 @Transactional
 public class GestionarVentaUseCaseImpl implements GestionarVentaUseCase {

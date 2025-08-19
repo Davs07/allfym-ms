@@ -7,9 +7,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * DTO para enviar responses de ventas desde la API REST.
- */
 public class VentaResponseDto {
 
     private Long id;
@@ -20,7 +17,6 @@ public class VentaResponseDto {
     private BigDecimal total;
     private List<DetalleVentaResponseDto> detalles;
 
-    // Constructores
     public VentaResponseDto() {
     }
 
@@ -34,7 +30,6 @@ public class VentaResponseDto {
         this.total = total;
     }
 
-    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -91,9 +86,6 @@ public class VentaResponseDto {
         this.detalles = detalles;
     }
 
-    /**
-     * DTO para representar detalles de venta en responses.
-     */
     public static class DetalleVentaResponseDto {
         
     private Long id;
@@ -102,7 +94,6 @@ public class VentaResponseDto {
         private BigDecimal precioUnitario;
         private BigDecimal subtotal;
 
-        // Constructores
         public DetalleVentaResponseDto() {
         }
 
@@ -115,7 +106,6 @@ public class VentaResponseDto {
             this.subtotal = subtotal;
         }
 
-        // Getters y Setters
         public Long getId() {
             return id;
         }

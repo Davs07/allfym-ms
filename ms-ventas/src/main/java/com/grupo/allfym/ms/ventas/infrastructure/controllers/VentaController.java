@@ -17,10 +17,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Controlador REST para operaciones de ventas.
- * Adaptador primario que expone la funcionalidad del dominio vía HTTP.
- */
 @RestController
 @RequestMapping("/api/ventas")
 @CrossOrigin(origins = "*")
@@ -143,9 +139,6 @@ public class VentaController {
         }
     }
 
-    /**
-     * Convierte VentaRequestDto a CrearVentaCommand.
-     */
     private CrearVentaCommand convertirACommand(VentaRequestDto dto) {
     List<DetalleVentaCommand> detallesCommand = dto.getDetalles().stream()
         .map(detalle -> new DetalleVentaCommand(
@@ -161,9 +154,6 @@ public class VentaController {
         );
     }
 
-    /**
-     * Convierte Venta de dominio a VentaResponseDto.
-     */
     private VentaResponseDto convertirAResponseDto(Venta venta) {
         VentaResponseDto response = new VentaResponseDto();
         response.setId(venta.getId());

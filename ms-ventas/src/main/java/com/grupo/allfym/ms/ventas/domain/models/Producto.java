@@ -2,10 +2,6 @@ package com.grupo.allfym.ms.ventas.domain.models;
 
 import java.util.Objects;
 
-/**
- * Modelo que representa un producto externo al dominio de ventas.
- * Este modelo refleja la información necesaria del microservicio de productos.
- */
 public class Producto {
     
     private final Long idProducto;

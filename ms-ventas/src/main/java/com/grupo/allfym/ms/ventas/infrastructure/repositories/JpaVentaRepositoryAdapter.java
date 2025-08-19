@@ -14,10 +14,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-/**
- * Adaptador que implementa el puerto de repositorio de ventas.
- * Convierte entre entidades del dominio y entidades JPA.
- */
 @Component
 public class JpaVentaRepositoryAdapter implements VentaRepositoryPort {
 

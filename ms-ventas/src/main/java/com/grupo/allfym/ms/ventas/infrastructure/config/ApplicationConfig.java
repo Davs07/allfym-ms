@@ -15,17 +15,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-/**
- * Configuración principal de la aplicación.
- * Define los beans para la inyección de dependencias de la arquitectura hexagonal.
- */
 @Configuration
 @EnableFeignClients(basePackages = "com.grupo.allfym.ms.ventas.infrastructure.clients")
 public class ApplicationConfig {
 
-    /**
-     * Bean para el caso de uso de crear ventas.
-     */
     @Bean
     public CrearVentaUseCase crearVentaUseCase(VentaRepositoryPort ventaRepositoryPort,
                                              ClienteServicePort clienteServicePort,
@@ -39,27 +32,17 @@ public class ApplicationConfig {
         );
     }
 
-    /**
-     * Bean para el caso de uso de buscar ventas.
-     */
     @Bean
     public BuscarVentaUseCase buscarVentaUseCase(VentaRepositoryPort ventaRepositoryPort) {
         return new BuscarVentaUseCaseImpl(ventaRepositoryPort);
     }
 
-    /**
-     * Bean para el caso de uso de gestionar ventas.
-     */
     @Bean
     public GestionarVentaUseCase gestionarVentaUseCase(VentaRepositoryPort ventaRepositoryPort,
                                                      AlmacenServicePort almacenServicePort) {
         return new GestionarVentaUseCaseImpl(ventaRepositoryPort, almacenServicePort);
     }
 
-    /**
-     * Bean para el servicio de aplicación de ventas.
-     * Este es el punto de entrada principal desde la infraestructura.
-     */
     @Bean
     public VentaApplicationService ventaApplicationService(CrearVentaUseCase crearVentaUseCase,
                                                           BuscarVentaUseCase buscarVentaUseCase,

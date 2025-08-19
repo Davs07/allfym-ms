@@ -9,9 +9,6 @@ import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.util.List;
 
-/**
- * DTO para recibir requests de creación de ventas desde la API REST.
- */
 public class VentaRequestDto {
 
     @NotNull(message = "El cliente es obligatorio")
@@ -24,7 +21,6 @@ public class VentaRequestDto {
     @Valid
     private List<DetalleVentaDto> detalles;
 
-    // Constructores
     public VentaRequestDto() {
     }
 
@@ -34,7 +30,6 @@ public class VentaRequestDto {
         this.detalles = detalles;
     }
 
-    // Getters y Setters
     public Long getClienteId() {
         return clienteId;
     }
@@ -59,9 +54,7 @@ public class VentaRequestDto {
         this.detalles = detalles;
     }
 
-    /**
-     * DTO para representar detalles de venta en requests.
-     */
+ 
     public static class DetalleVentaDto {
         
     @NotNull(message = "El ID del producto es obligatorio")
@@ -73,7 +66,6 @@ public class VentaRequestDto {
         @Positive(message = "El precio unitario debe ser positivo")
         private BigDecimal precioUnitario;
 
-        // Constructores
         public DetalleVentaDto() {
         }
 
@@ -83,7 +75,6 @@ public class VentaRequestDto {
             this.precioUnitario = precioUnitario;
         }
 
-        // Getters y Setters
         public Long getProductoId() {
             return productoId;
         }

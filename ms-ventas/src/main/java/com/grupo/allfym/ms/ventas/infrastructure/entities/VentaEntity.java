@@ -11,10 +11,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Entidad JPA para representar ventas en la base de datos.
- * Esta es la representación persistente, separada del modelo de dominio.
- */
 @Entity
 @Table(name = "ventas")
 public class VentaEntity {
@@ -48,7 +44,6 @@ public class VentaEntity {
     @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DetalleVentaEntity> detalles = new ArrayList<>();
 
-    // Constructores
     public VentaEntity() {
         this.fechaRegistro = LocalDateTime.now();
         this.estado = EstadoVenta.PENDIENTE;
@@ -61,7 +56,6 @@ public class VentaEntity {
         this.metodoPago = metodoPago;
     }
 
-    // Getters y Setters
     public Long getId() {
         return id;
     }

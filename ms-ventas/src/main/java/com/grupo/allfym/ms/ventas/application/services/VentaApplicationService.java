@@ -26,72 +26,42 @@ public class VentaApplicationService {
         this.gestionarVentaUseCase = gestionarVentaUseCase;
     }
 
-    /**
-     * Crea una nueva venta.
-     */
     public Venta crearVenta(CrearVentaUseCase.CrearVentaCommand command) {
         return crearVentaUseCase.crear(command);
     }
 
-    /**
-     * Busca una venta por ID.
-     */
     public Optional<Venta> buscarPorId(Long id) {
         return buscarVentaUseCase.buscarPorId(id);
     }
 
-    /**
-     * Obtiene todas las ventas.
-     */
     public List<Venta> obtenerTodasLasVentas() {
         return buscarVentaUseCase.obtenerTodas();
     }
 
-    /**
-     * Busca ventas por cliente.
-     */
     public List<Venta> buscarPorClienteId(Long clienteId) {
         return buscarVentaUseCase.buscarPorCliente(clienteId);
     }
 
-    /**
-     * Busca ventas por estado.
-     */
     public List<Venta> buscarPorEstado(EstadoVenta estado) {
         return buscarVentaUseCase.buscarPorEstado(estado);
     }
 
-    /**
-     * Busca ventas por rango de fechas.
-     */
     public List<Venta> buscarPorFechaRegistro(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
         return buscarVentaUseCase.buscarPorRangoFechas(fechaInicio, fechaFin);
     }
 
-    /**
-     * Confirma una venta.
-     */
     public Venta confirmarVenta(Long ventaId) {
         return gestionarVentaUseCase.confirmarVenta(ventaId);
     }
 
-    /**
-     * Cancela una venta.
-     */
     public Venta cancelarVenta(Long ventaId) {
         return gestionarVentaUseCase.cancelarVenta(ventaId);
     }
 
-    /**
-     * Marca una venta como entregada.
-     */
     public Venta marcarComoEntregada(Long ventaId) {
         return gestionarVentaUseCase.marcarComoEntregada(ventaId);
     }
 
-    /**
-     * Elimina una venta.
-     */
     public void eliminarVenta(Long id) {
         gestionarVentaUseCase.eliminarVenta(id);
     }

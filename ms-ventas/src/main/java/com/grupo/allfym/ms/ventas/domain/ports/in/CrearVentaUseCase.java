@@ -7,20 +7,9 @@ import com.grupo.allfym.ms.ventas.domain.models.entities.Venta;
  * Define el contrato para el caso de uso de creación de ventas.
  */
 public interface CrearVentaUseCase {
-    
-    /**
-     * Crea una nueva venta con los detalles especificados.
-     * 
-     * @param command Comando con la información necesaria para crear la venta
-     * @return La venta creada
-     * @throws IllegalArgumentException si los datos del comando son inválidos
-     * @throws IllegalStateException si no se puede crear la venta por reglas de negocio
-     */
+
     Venta crear(CrearVentaCommand command);
-    
-    /**
-     * Comando para crear una venta.
-     */
+  
     record CrearVentaCommand(
         Long clienteId,
         String metodoPago,
@@ -38,10 +27,7 @@ public interface CrearVentaUseCase {
             }
         }
     }
-    
-    /**
-     * Comando para crear un detalle de venta.
-     */
+
     record DetalleVentaCommand(
         Long productoId,
         int cantidad,

@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-/**
- * Cliente Feign para comunicación con el microservicio de productos.
- */
+
 @FeignClient(name = "ms-productos", url = "http://localhost:8050")
 public interface ProductoClient {
 

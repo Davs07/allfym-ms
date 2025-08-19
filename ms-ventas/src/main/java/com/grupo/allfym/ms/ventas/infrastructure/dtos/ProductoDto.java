@@ -2,9 +2,6 @@ package com.grupo.allfym.ms.ventas.infrastructure.dtos;
 
 import java.math.BigDecimal;
 
-/**
- * DTO para representar datos de producto desde servicios externos.
- */
 public class ProductoDto {
     
     private Long idProducto;
@@ -15,7 +12,6 @@ public class ProductoDto {
     private String marca;
     private Boolean activo;
 
-    // Constructores
     public ProductoDto() {
     }
 
@@ -25,7 +21,6 @@ public class ProductoDto {
         this.precio = precio;
     }
 
-    // Getters y Setters
     public Long getIdProducto() {
         return idProducto;
     }

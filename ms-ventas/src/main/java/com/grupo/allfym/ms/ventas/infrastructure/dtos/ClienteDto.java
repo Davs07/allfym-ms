@@ -2,9 +2,6 @@ package com.grupo.allfym.ms.ventas.infrastructure.dtos;
 
 import java.time.LocalDateTime;
 
-/**
- * DTO para representar datos de cliente desde servicios externos.
- */
 public class ClienteDto {
 
     private Long id;
@@ -16,9 +13,8 @@ public class ClienteDto {
     private String telefono;
     private String direccion;
     private LocalDateTime fechaRegistro;
-    private String estado; // Cambiado de Boolean activo a String estado
+    private String estado; 
 
-    // Constructores
     public ClienteDto() {
     }
 
@@ -30,7 +26,6 @@ public class ClienteDto {
         this.estado = estado;
     }
 
-    // Getters y Setters
     public Long getId() {
         return id;
     }

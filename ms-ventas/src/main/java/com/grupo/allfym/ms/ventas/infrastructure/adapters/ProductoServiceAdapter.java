@@ -8,10 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-/**
- * Adaptador que implementa el puerto de servicio de productos.
- * Utiliza ProductoClient (Feign) para comunicarse con el microservicio de productos.
- */
 @Component
 public class ProductoServiceAdapter implements ProductoServicePort {
 
@@ -56,9 +52,6 @@ public class ProductoServiceAdapter implements ProductoServicePort {
         }
     }
 
-    /**
-     * Convierte ProductoDto a modelo de dominio.
-     */
     private Producto convertirADominio(ProductoDto dto) {
         return new Producto(
             dto.getIdProducto(),

@@ -2,9 +2,6 @@ package com.grupo.allfym.ms.ventas.domain.models.entities;
 
 import java.math.BigDecimal;
 
-/**
- * Entidad de dominio DetalleVenta - POJO puro sin dependencias de infraestructura
- */
 public class DetalleVenta {
 
     private Long id;

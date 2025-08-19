@@ -3,10 +3,6 @@ package com.grupo.allfym.ms.ventas.domain.models;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-/**
- * Modelo que representa un cliente externo al dominio de ventas.
- * Este modelo refleja la información necesaria del microservicio de clientes.
- */
 public class Cliente {
     
     private final Long id;

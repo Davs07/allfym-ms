@@ -10,10 +10,6 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * Repositorio JPA para entidades de venta.
- * Utiliza Spring Data JPA para operaciones básicas y consultas personalizadas.
- */
 @Repository
 public interface JpaVentaRepository extends JpaRepository<VentaEntity, Long> {
 

@@ -6,10 +6,6 @@ import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 
-/**
- * Entidad JPA para representar detalles de venta en la base de datos.
- * Esta es la representación persistente, separada del modelo de dominio.
- */
 @Entity
 @Table(name = "detalle_ventas")
 public class DetalleVentaEntity {
@@ -40,7 +36,6 @@ public class DetalleVentaEntity {
     @Column(name = "subtotal", precision = 10, scale = 2)
     private BigDecimal subtotal;
 
-    // Constructores
     public DetalleVentaEntity() {
     }
 
@@ -51,7 +46,6 @@ public class DetalleVentaEntity {
         this.subtotal = calcularSubtotal();
     }
 
-    // Método para calcular subtotal
     public BigDecimal calcularSubtotal() {
         if (cantidad != null && precioUnitario != null) {
             return precioUnitario.multiply(BigDecimal.valueOf(cantidad));
@@ -59,7 +53,6 @@ public class DetalleVentaEntity {
         return BigDecimal.ZERO;
     }
 
-    // Getters y Setters
     public Long getId() {
         return id;
     }

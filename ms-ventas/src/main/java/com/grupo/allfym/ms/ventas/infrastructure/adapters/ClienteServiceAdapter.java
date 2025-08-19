@@ -8,10 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-/**
- * Adaptador que implementa el puerto de servicio de clientes.
- * Utiliza ClienteClient (Feign) para comunicarse con el microservicio de clientes.
- */
 @Component
 public class ClienteServiceAdapter implements ClienteServicePort {
 
@@ -52,9 +48,6 @@ public class ClienteServiceAdapter implements ClienteServicePort {
         }
     }
 
-    /**
-     * Convierte ClienteDto a modelo de dominio.
-     */
     private Cliente convertirADominio(ClienteDto dto) {
         return new Cliente(
             dto.getId(),

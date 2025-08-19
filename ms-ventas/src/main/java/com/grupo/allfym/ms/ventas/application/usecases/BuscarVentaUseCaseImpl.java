@@ -11,9 +11,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Implementación para buscar ventas.
- */
 @Component
 @Transactional(readOnly = true)
 public class BuscarVentaUseCaseImpl implements BuscarVentaUseCase {

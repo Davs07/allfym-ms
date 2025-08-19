@@ -3,10 +3,6 @@ package com.grupo.allfym.ms.ventas.domain.models.vo;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-/**
- * Value Object que representa una fecha de registro en el dominio.
- * Inmutable y sin dependencias de frameworks externos.
- */
 public class FechaRegistro {
 
     private final LocalDateTime fechaRegistro;

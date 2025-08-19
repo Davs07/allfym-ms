@@ -8,9 +8,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Entidad de dominio Venta - POJO puro sin dependencias de infraestructura
- */
 public class Venta {
 
     private Long id;

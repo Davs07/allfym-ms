@@ -4,10 +4,6 @@ import com.grupo.allfym.ms.ventas.domain.ports.out.AlmacenServicePort;
 import com.grupo.allfym.ms.ventas.infrastructure.clients.AlmacenClient;
 import org.springframework.stereotype.Component;
 
-/**
- * Adaptador que implementa el puerto de servicio de almacén.
- * Utiliza AlmacenClient (Feign) para comunicarse con el microservicio de almacén.
- */
 @Component
 public class AlmacenServiceAdapter implements AlmacenServicePort {
 
@@ -30,8 +26,7 @@ public class AlmacenServiceAdapter implements AlmacenServicePort {
     @Override
     public boolean hayStockSuficiente(Long productoId, int cantidad) {
         try {
-            // Para simplificar, asumimos que siempre hay stock disponible
-            // En un caso real, esto requeriría una consulta al servicio de almacén
+            // Para simplificar siempre hay stock disponible
             return true;
         } catch (Exception e) {
             System.err.println("Error al verificar stock: " + e.getMessage());
@@ -42,8 +37,7 @@ public class AlmacenServiceAdapter implements AlmacenServicePort {
     @Override
     public void restaurarStock(Long productoId, int cantidad) {
         try {
-            // En un caso real, sería un endpoint diferente para aumentar stock
-            // Por ahora, solo simulamos la operación
+            // En un caso real ería un endpoint diferente para aumentar stock
             System.out.println("Restaurando stock para producto: " + productoId + ", cantidad: " + cantidad);
         } catch (Exception e) {
             System.err.println("Error al restaurar stock: " + e.getMessage());

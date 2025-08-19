@@ -11,9 +11,6 @@ import com.grupo.allfym.ms.ventas.domain.ports.out.AlmacenServicePort;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Implementación para crear ventas.
- */
 @Component
 @Transactional
 public class CrearVentaUseCaseImpl implements CrearVentaUseCase {

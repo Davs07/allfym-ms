@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * Cliente Feign para comunicación con el microservicio de clientes.
- */
 @FeignClient(name = "ms-clientes", url = "http://localhost:8020")
 public interface ClienteClient {
 
