@@ -66,7 +66,7 @@ public class ClienteServiceAdapter implements ClienteServicePort {
             dto.getTelefono(),
             dto.getDireccion(),
             dto.getFechaRegistro(),
-            dto.getActivo()
+            dto.isActivo() // Usar el método isActivo() que evalúa el estado
         );
     }
 }

@@ -33,8 +33,10 @@ public class VentaController {
     }
 
     @PostMapping
-    public ResponseEntity<VentaResponseDto> crearVenta(@Valid @RequestBody VentaRequestDto ventaRequest) {
+    public ResponseEntity<?> crearVenta(@Valid @RequestBody VentaRequestDto ventaRequest) {
         try {
+            System.out.println("Recibiendo request: " + ventaRequest);
+            
             // Convertir DTO a Command
             CrearVentaCommand command = convertirACommand(ventaRequest);
             
@@ -46,7 +48,10 @@ public class VentaController {
             
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            System.err.println("Error al crear venta: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.badRequest()
+                .body("Error al crear venta: " + e.getMessage());
         }
     }
 

@@ -16,18 +16,18 @@ public class ClienteDto {
     private String telefono;
     private String direccion;
     private LocalDateTime fechaRegistro;
-    private Boolean activo;
+    private String estado; // Cambiado de Boolean activo a String estado
 
     // Constructores
     public ClienteDto() {
     }
 
-    public ClienteDto(Long id, String nombre, String apellido, String email, Boolean activo) {
+    public ClienteDto(Long id, String nombre, String apellido, String email, String estado) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
-        this.activo = activo;
+        this.estado = estado;
     }
 
     // Getters y Setters
@@ -103,15 +103,15 @@ public class ClienteDto {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public Boolean getActivo() {
-        return activo;
+    public String getEstado() {
+        return estado;
     }
 
-    public void setActivo(Boolean activo) {
-        this.activo = activo;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public boolean isActivo() {
-        return activo != null && activo;
+        return "ACTIVO".equals(estado);
     }
 }
