@@ -1,17 +1,32 @@
 package com.grupo.allfym.ms.pagos.domain.models.classes;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@AllArgsConstructor
-@Data
-@NoArgsConstructor
-@Setter
 public class Pago_venta {
     private Long id;
     private Long idVenta;
+
+    public Pago_venta(Long id, Long idVenta) {
+        this.id = id;
+        this.idVenta = idVenta;
+    }
+
+    public Pago_venta() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getIdVenta() {
+        return idVenta;
+    }
+
+    public void setIdVenta(Long idVenta) {
+        this.idVenta = idVenta;
+    }
 
     @Override
     public boolean equals(Object obj) {
