@@ -21,9 +21,6 @@ public interface VentaRepositoryPort {
  
     List<Venta> buscarPorRangoFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin);
 
-    List<Venta> buscarPorClienteIdYEstado(Long clienteId, EstadoVenta estado);
-
     void eliminarPorId(Long id);
 
-    boolean existePorId(Long id);
 }

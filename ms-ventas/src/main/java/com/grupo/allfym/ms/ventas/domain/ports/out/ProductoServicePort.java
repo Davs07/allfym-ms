@@ -8,5 +8,4 @@ public interface ProductoServicePort {
     
     Optional<Producto> buscarPorId(Long productoId);
     
-    boolean existeYEsValido(Long productoId);
 }

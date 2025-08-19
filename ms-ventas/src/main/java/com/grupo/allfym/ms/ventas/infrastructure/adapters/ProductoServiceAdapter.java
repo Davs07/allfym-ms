@@ -33,25 +33,6 @@ public class ProductoServiceAdapter implements ProductoServicePort {
         }
     }
 
-    @Override
-    public boolean existeYEsValido(Long productoId) {
-        try {
-            var response = productoClient.obtenerProductoPorId(productoId);
-            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-                ProductoDto producto = response.getBody();
-                return producto.isActivo() && 
-                       producto.getNombre() != null && 
-                       !producto.getNombre().trim().isEmpty() &&
-                       producto.getPrecio() != null && 
-                       producto.getPrecio().compareTo(java.math.BigDecimal.ZERO) > 0;
-            }
-            return false;
-        } catch (Exception e) {
-            System.err.println("Error al verificar producto: " + e.getMessage());
-            return false;
-        }
-    }
-
     private Producto convertirADominio(ProductoDto dto) {
         return new Producto(
             dto.getIdProducto(),

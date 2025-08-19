@@ -16,16 +16,13 @@ public class CrearVentaUseCaseImpl implements CrearVentaUseCase {
 
     private final VentaRepositoryPort ventaRepository;
     private final ClienteServicePort clienteService;
-    private final ProductoServicePort productoService;
     private final AlmacenServicePort almacenService;
 
     public CrearVentaUseCaseImpl(VentaRepositoryPort ventaRepository,
                                 ClienteServicePort clienteService,
-                                ProductoServicePort productoService,
                                 AlmacenServicePort almacenService) {
         this.ventaRepository = ventaRepository;
         this.clienteService = clienteService;
-        this.productoService = productoService;
         this.almacenService = almacenService;
     }
 

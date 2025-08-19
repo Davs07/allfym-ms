@@ -22,12 +22,10 @@ public class ApplicationConfig {
     @Bean
     public CrearVentaUseCase crearVentaUseCase(VentaRepositoryPort ventaRepositoryPort,
                                              ClienteServicePort clienteServicePort,
-                                             ProductoServicePort productoServicePort,
                                              AlmacenServicePort almacenServicePort) {
         return new CrearVentaUseCaseImpl(
                 ventaRepositoryPort,
                 clienteServicePort,
-                productoServicePort,
                 almacenServicePort
         );
     }

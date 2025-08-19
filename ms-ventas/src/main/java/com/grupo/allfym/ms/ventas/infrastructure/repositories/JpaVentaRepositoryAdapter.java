@@ -65,20 +65,8 @@ public class JpaVentaRepositoryAdapter implements VentaRepositoryPort {
     }
 
     @Override
-    public List<Venta> buscarPorClienteIdYEstado(Long clienteId, EstadoVenta estado) {
-        return jpaRepository.findByClienteIdAndEstado(clienteId, estado).stream()
-                .map(this::convertirADominio)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public void eliminarPorId(Long id) {
         jpaRepository.deleteById(id);
-    }
-
-    @Override
-    public boolean existePorId(Long id) {
-        return jpaRepository.existsById(id);
     }
 
     /**
