@@ -10,8 +10,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EnableFeignClients(basePackages = "com.grupo.allfym.ms.clientes")
 @ComponentScan(basePackages = "com.grupo.allfym.ms.clientes")
-@EntityScan(basePackages = "com.grupo.allfym.ms.clientes.entity")
-@EnableJpaRepositories(basePackages = "com.grupo.allfym.ms.clientes.repositories")
+@EntityScan(basePackages = "com.grupo.allfym.ms.clientes.infrastructure.entities")
+@EnableJpaRepositories(basePackages = "com.grupo.allfym.ms.clientes.infrastructure.repositories")
 public class MsClientesApplication {
 
 	public static void main(String[] args) {
